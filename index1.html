@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ============================================================
+     GTU Safe Exam Browser (SEB) Student Guide
+     Single-file production page: HTML5 + Bootstrap 5 + Bootstrap Icons + vanilla JS
+     No backend, no build step, no external framework other than the
+     Bootstrap 5 / Bootstrap Icons / Google Fonts CDNs referenced below.
+============================================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTU Safe Exam Browser (SEB) Student Guide</title>
+    <meta name="description"
+        content="Step-by-step guide to install, configure and use the Safe Exam Browser for GTU online examinations.">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts: Ubuntu & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Ubuntu:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================================
+    ROOT VARIABLES — GTU Crimson Red theme
+ ============================================================= */
+        :root {
+            --brand-900: #570a0d;
+            /* Very dark red */
+            --brand-800: #821013;
+            /* Dark red */
+            --brand-700: #a31418;
+            /* Medium dark red */
+            --brand-600: #be2126;
+            /* Ignito Red (Primary) */
+            --brand-500: #e42f2e;
+            /* Light red */
+            --brand-200: #fed2d4;
+            /* Accent Border Red */
+            --brand-100: #fff0f1;
+            /* Light Pink/Red */
+            --brand-50: #fff9f9;
+            /* Very Light Pink/Red */
+            --ink-900: #1f1f25;
+            /* Ignito dark ink */
+            --ink-600: #5f6c80;
+            /* Muted gray */
+            --white: #ffffff;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --radius-lg: 1.25rem;
+            --radius-md: 0.85rem;
+            --shadow-soft: 0 10px 30px rgba(190, 33, 38, 0.05);
+            --shadow-hover: 0 16px 40px rgba(190, 33, 38, 0.12);
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Ubuntu', 'Poppins', system-ui, -apple-system, sans-serif;
+            color: var(--ink-900);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .text-brand {
+            color: var(--brand-600) !important;
+        }
+
+        .bg-brand-50 {
+            background: var(--brand-50);
+        }
+
+        .bg-brand-100 {
+            background: var(--brand-100);
+        }
+
+        /* Section spacing rhythm */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-sm {
+            padding: 3rem 0;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--brand-600);
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            margin-bottom: .5rem;
+        }
+
+        .section-sub {
+            color: var(--ink-600);
+            max-width: 640px;
+        }
+
+        /* ============================================================
+   NAVBAR
+============================================================= */
+        .navbar-ignito {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 18px rgba(190, 33, 38, 0.06);
+        }
+
+        .navbar-ignito .navbar-brand {
+            font-weight: 800;
+            color: var(--brand-800);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .navbar-ignito .navbar-brand i {
+            color: var(--brand-600);
+        }
+
+        .navbar-ignito .nav-link {
+            font-weight: 500;
+            color: var(--ink-900);
+            padding: .5rem 1rem !important;
+        }
+
+        .navbar-ignito .nav-link:hover {
+            color: var(--brand-600);
+        }
+
+        /* ============================================================
+   HERO
+============================================================= */
+        /* ============================================================
+    HERO
+============================================================= */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, #fffafb 0%, #fff0f1 50%, #ffe8ea 100%);
+            color: var(--ink-900);
+            padding: 7rem 0 6rem;
+            overflow: hidden;
+            border-bottom: 1px solid var(--brand-200);
+        }
+
+        .hero::before,
+        .hero::after {
+            display: none;
+        }
+
+        /* Animated floating shapes for the light background */
+        .hero-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(190, 33, 38, 0.03);
+            filter: blur(60px);
+            z-index: 0;
+            pointer-events: none;
+            animation: float-shapes 12s infinite alternate ease-in-out;
+        }
+
+        .hero-shape-1 {
+            width: 350px;
+            height: 350px;
+            top: -100px;
+            right: -100px;
+            animation-duration: 16s;
+        }
+
+        .hero-shape-2 {
+            width: 250px;
+            height: 250px;
+            bottom: -50px;
+            left: -50px;
+            animation-duration: 12s;
+            animation-delay: -3s;
+            background: rgba(228, 47, 46, 0.04);
+        }
+
+        .hero-shape-3 {
+            width: 200px;
+            height: 200px;
+            top: 40%;
+            left: 40%;
+            background: rgba(190, 33, 38, 0.02);
+            animation-duration: 20s;
+            animation-delay: -6s;
+        }
+
+        @keyframes float-shapes {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-30px) scale(1.1) rotate(180deg);
+            }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .badge-live {
+            background: var(--brand-100);
+            border: 1px solid var(--brand-200);
+            color: var(--brand-600);
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4.2vw, 3.2rem);
+            line-height: 1.15;
+            color: var(--brand-900);
+        }
+
+        .hero p.lead {
+            color: var(--ink-600);
+            max-width: 620px;
+        }
+
+        .hero .btn-hero-primary {
+            background: var(--brand-600);
+            color: var(--white);
+            font-weight: 600;
+            border-radius: 50px;
+            padding: .75rem 1.6rem;
+            border: none;
+            box-shadow: 0 4px 14px rgba(190, 33, 38, 0.25);
+            transition: all .25s ease;
+        }
+
+        .hero .btn-hero-primary:hover {
+            background: var(--brand-700);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(190, 33, 38, 0.35);
+        }
+
+        .hero .btn-hero-outline {
+            border: 1.5px solid var(--brand-600);
+            color: var(--brand-600);
+            font-weight: 600;
+            border-radius: 50px;
+            padding: .75rem 1.6rem;
+            background: transparent;
+            transition: all .25s ease;
+        }
+
+        .hero .btn-hero-outline:hover {
+            background: var(--brand-100);
+            color: var(--brand-700);
+            transform: translateY(-2px);
+        }
+
+        .hero-support {
+            background: var(--brand-50);
+            border: 1px solid var(--brand-200);
+            border-radius: var(--radius-md);
+            color: var(--ink-900);
+        }
+
+        /* Fade-up animation on scroll */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .fade-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+   CARDS (generic)
+============================================================= */
+        .card-ignito {
+            border: 1px solid rgba(190, 33, 38, 0.08);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            transition: transform .25s ease, box-shadow .25s ease;
+            height: 100%;
+        }
+
+        .card-ignito:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .icon-tile {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: var(--brand-100);
+            color: var(--brand-600);
+            font-size: 1.5rem;
+        }
+
+        .icon-tile.warn {
+            background: #fff1e6;
+            color: var(--warning);
+        }
+
+        .icon-tile.danger {
+            background: #fdeaea;
+            color: var(--danger);
+        }
+
+        .icon-tile.success {
+            background: #e8f8ee;
+            color: var(--success);
+        }
+
+        /* App-to-close cards */
+        .app-card {
+            border: 1px solid #fde3e3;
+            background: #fffaf9;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 22px rgba(220, 38, 38, 0.12);
+        }
+
+        .app-card i {
+            font-size: 1.8rem;
+            color: var(--danger);
+        }
+
+        .app-card .app-name {
+            font-size: .85rem;
+            font-weight: 600;
+            margin-top: .4rem;
+        }
+
+        /* ============================================================
+   TIMELINE (Install steps)
+============================================================= */
+        .timeline {
+            position: relative;
+            padding-left: 2.2rem;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: .6rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(var(--brand-600), var(--brand-100));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2.2rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2.2rem;
+            top: 0;
+            width: 1.4rem;
+            height: 1.4rem;
+            border-radius: 50%;
+            background: var(--brand-600);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            font-weight: 700;
+            box-shadow: 0 0 0 5px var(--brand-100);
+        }
+
+        .timeline-card {
+            background: var(--white);
+            border: 1px solid rgba(190, 33, 38, 0.08);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* ============================================================
+   PROGRESS STEPS (Start Exam)
+============================================================= */
+        .progress-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            counter-reset: step;
+        }
+
+        .progress-step {
+            flex: 1 1 130px;
+            background: var(--brand-50);
+            border: 1px solid var(--brand-100);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            position: relative;
+        }
+
+        .progress-step .step-num {
+            counter-increment: step;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--brand-600);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .8rem;
+            font-weight: 700;
+            margin-bottom: .6rem;
+        }
+
+        .progress-step .step-num::before {
+            content: counter(step);
+        }
+
+        /* ============================================================
+   LIVE CHECKLIST
+============================================================= */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .65rem .9rem;
+            border: 1px solid rgba(190, 33, 38, 0.08);
+            border-radius: var(--radius-md);
+            margin-bottom: .6rem;
+            transition: background .2s ease, border-color .2s ease;
+        }
+
+        .checklist-item.checked {
+            background: #eefaf1;
+            border-color: #c9eed4;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .checklist-item.checked label {
+            text-decoration: line-through;
+            color: var(--ink-600);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--brand-600);
+            border-color: var(--brand-600);
+        }
+
+        /* ============================================================
+   RULES (Do NOT)
+============================================================= */
+        .rule-card {
+            border-left: 4px solid var(--danger);
+            background: #fff7f7;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 1rem 1.25rem;
+        }
+
+        .rule-card i {
+            color: var(--danger);
+            font-size: 1.3rem;
+        }
+
+        /* ============================================================
+   FAQ ACCORDION
+============================================================= */
+        .accordion-item {
+            border: 1px solid rgba(190, 33, 38, 0.08) !important;
+            border-radius: var(--radius-md) !important;
+            overflow: hidden;
+            margin-bottom: .6rem;
+        }
+
+        .accordion-button {
+            font-weight: 600;
+            color: var(--ink-900);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--brand-50);
+            color: var(--brand-700);
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--brand-100);
+        }
+
+        /* ============================================================
+   BUTTONS
+============================================================= */
+        .btn-brand {
+            background: var(--brand-600);
+            border-color: var(--brand-600);
+            color: #fff;
+            border-radius: 50px;
+            font-weight: 600;
+            padding: .65rem 1.4rem;
+        }
+
+        .btn-brand:hover {
+            background: var(--brand-700);
+            border-color: var(--brand-700);
+            color: #fff;
+        }
+
+        .btn-outline-brand {
+            border: 1.5px solid var(--brand-600);
+            color: var(--brand-600);
+            border-radius: 50px;
+            font-weight: 600;
+            padding: .65rem 1.4rem;
+            background: transparent;
+        }
+
+        .btn-outline-brand:hover {
+            background: var(--brand-600);
+            color: #fff;
+        }
+
+        /* ============================================================
+   FOOTER
+============================================================= */
+        footer.site-footer {
+            background: var(--brand-900);
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        footer.site-footer a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+        }
+
+        footer.site-footer a:hover {
+            color: #fff;
+        }
+
+        /* Section divider wave-ish subtlety */
+        .divider-tint {
+            background: var(--brand-50);
+        }
+
+        /* Responsive tweaks */
+        @media (max-width:767.98px) {
+            .section {
+                padding: 3.5rem 0;
+            }
+
+            .hero {
+                padding: 5.5rem 0 4rem;
+            }
+        }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .fade-up {
+                transition: none;
+                opacity: 1;
+                transform: none;
+            }
+
+            * {
+                scroll-behavior: auto;
+            }
+        }
+
+        /* ============================================================
+    INTERACTIVE VIDEO STEPPER STYLES
+============================================================= */
+        .video-container-wrapper {
+            position: sticky;
+            top: 100px;
+        }
+
+        .premium-video-card {
+            background: #151518;
+            border: 1px solid rgba(190, 33, 38, 0.15);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 0 40px rgba(190, 33, 38, 0.08);
+            display: flex;
+            flex-direction: column;
+            transition: border-color .3s ease, box-shadow .3s ease;
+        }
+
+        .premium-video-card:hover {
+            border-color: rgba(190, 33, 38, 0.3);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 50px rgba(190, 33, 38, 0.15);
+        }
+
+        .video-wrapper {
+            background: #000;
+        }
+
+        .video-info-bar {
+            padding: 1rem 1.25rem;
+            background: rgba(21, 21, 24, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            font-size: .85rem;
+            font-weight: 500;
+        }
+
+        .pulse-badge {
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(228, 47, 46, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(228, 47, 46, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(228, 47, 46, 0);
+            }
+        }
+
+        .stepper-vertical {
+            position: relative;
+            padding-left: 0.5rem;
+        }
+
+        .step-card {
+            background: var(--white);
+            border: 1px solid var(--brand-200);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .step-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: transparent;
+            transition: background-color .3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--brand-600);
+        }
+
+        .step-card.active {
+            border-color: var(--brand-600);
+            background: var(--brand-50);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .step-card.active::before {
+            background: var(--brand-600);
+        }
+
+        .step-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            user-select: none;
+        }
+
+        .step-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--brand-100);
+            color: var(--brand-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .95rem;
+            transition: all .3s ease;
+            flex-shrink: 0;
+        }
+
+        .step-card.active .step-badge {
+            background: var(--brand-600);
+            color: var(--white);
+        }
+
+        .step-title-wrap {
+            flex: 1;
+        }
+
+        .step-card-title {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--ink-900);
+            transition: color .3s ease;
+        }
+
+        .step-card.active .step-card-title {
+            color: var(--brand-700);
+        }
+
+        .step-duration {
+            font-size: .75rem;
+            color: var(--ink-600);
+            display: inline-flex;
+            align-items: center;
+            gap: .25rem;
+            margin-top: .15rem;
+        }
+
+        .step-icon-chevron {
+            font-size: 1.1rem;
+            color: var(--ink-600);
+            transition: transform .3s ease;
+        }
+
+        .step-card.active .step-icon-chevron {
+            transform: rotate(180deg);
+            color: var(--brand-600);
+        }
+
+        .step-card-body {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 3.4rem;
+        }
+
+        .step-card.active .step-card-body {
+            max-height: 250px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================================================
+     NAVBAR
+============================================================= -->
+    <nav class="navbar navbar-expand-lg navbar-ignito sticky-top py-3">        <div class="container">
+            <a class="navbar-brand" href="#top"><i class="bi bi-shield-check"></i> GTU</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    <li class="nav-item"><a class="nav-link" href="#download-seb">Download SEB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#permissions">Permissions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#start-exam">How to start exam</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#help">Support</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+     1. HERO SECTION
+ ============================================================= -->
+    <header class="hero" id="top">
+        <!-- Floating Animated Background Shapes -->
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+        <div class="hero-shape hero-shape-3"></div>
+
+        <div class="container position-relative">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 fade-up">
+                    <span class="badge rounded-pill badge-live px-3 py-2 mb-3"><i class="bi bi-dot animate-pulse"></i>
+                        Exam Portal
+                        Live</span>
+                    <h1 class="mb-3">Safe Exam Browser Setup Guide for GTU Students</h1>
+                    <p class="lead">Follow this guide to install, configure and launch the Safe Exam Browser (SEB)
+                        correctly, so your online examination runs smoothly from start to finish — no last-minute
+                        surprises.</p>
+                    <div class="d-flex flex-wrap gap-3 mt-4">
+                        <a href="#start-exam" class="btn btn-hero-primary"><i class="bi bi-play-circle me-1"></i> Start
+                            Exam</a>
+                        <a href="#" id="downloadSebConfigHero" class="btn btn-hero-outline"><i
+                                class="bi bi-file-earmark-arrow-down me-1"></i> Download SEB Configuration (.seb)</a>
+                        <a href="#" id="downloadGuidePdf" class="btn btn-hero-outline"><i
+                                class="bi bi-file-earmark-pdf me-1"></i> Download Student Guide PDF</a>
+                    </div>
+                    <div class="hero-support d-inline-flex align-items-center gap-2 mt-4 px-3 py-2">
+                        <i class="bi bi-headset fs-5"></i>
+                        <span>Need help? Call Support: <strong>+91 1800-123-4567</strong></span>
+                    </div>
+                </div>
+                <div class="col-lg-5 fade-up">
+                    <div class="p-4 rounded-4 bg-white shadow-sm" style="border: 1px solid var(--brand-200);">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-tile"><i class="bi bi-laptop"></i></div>
+                            <div>
+                                <h6 class="mb-0 text-dark">Quick Setup Checklist</h6>
+                                <small class="text-secondary">Complete before exam day</small>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled mb-0" style="color: var(--ink-900);">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Install Safe Exam
+                                Browser</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Allow Camera &amp;
+                                Microphone</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Close background
+                                apps</li>
+                            <li class="mb-0"><i class="bi bi-check-circle-fill text-success me-2"></i>Download exam
+                                configuration file</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+     2. SUPPORTED PLATFORMS
+============================================================= -->
+    <section class="section" id="platforms">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Compatibility</div>
+                <h2 class="section-title">Supported Platforms</h2>
+                <p class="section-sub mx-auto">Safe Exam Browser is officially supported on the following operating
+                    systems.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-tile"><i class="bi bi-windows"></i></div>
+                            <h5 class="mb-0">Windows 10 / 11</h5>
+                        </div>
+                        <p class="text-secondary mb-2">Supported versions:</p>
+                        <ul class="text-secondary">
+                            <li>Windows 10 (64-bit), version 1903 or later</li>
+                            <li>Windows 11 (64-bit), all released versions</li>
+                        </ul>
+                        <span class="badge bg-brand-100 text-brand">Recommended: Windows 11</span>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-tile"><i class="bi bi-apple"></i></div>
+                            <h5 class="mb-0">macOS</h5>
+                        </div>
+                        <p class="text-secondary mb-2">Supported versions:</p>
+                        <ul class="text-secondary">
+                            <li>macOS 11 (Big Sur), 12 (Monterey), 13 (Ventura)</li>
+                            <li>macOS 14 (Sonoma), 15 (Sequoia), 26</li>
+                        </ul>
+                        <span class="badge bg-brand-100 text-brand">Recommended: Latest macOS release</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     INTERACTIVE SETUP WALKTHROUGH (STEPPER WITH VIDEO)
+============================================================= -->
+    <section class="section divider-tint" id="interactive-walkthrough">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Interactive Guide</div>
+                <h2 class="section-title">Setup Safe Exam Browser in 4 Easy Steps</h2>
+                <p class="section-sub mx-auto">Watch the video demo on the left and follow the corresponding setup steps
+                    on the right. Click any step to seek the video to that part.</p>
+            </div>
+
+            <div class="row g-5 align-items-stretch">
+                <!-- Left: Video Mockup -->
+                <div class="col-lg-6 fade-up">
+                    <div class="video-container-wrapper h-100">
+                        <div class="premium-video-card h-100">
+                            <!-- Youtube Player iframe with referrerpolicy to prevent Error 153 -->
+                            <div class="ratio ratio-16x9 video-wrapper">
+                                <iframe width="560" height="315"
+                                    src="https://www.youtube.com/embed/0rkdqSHzcjM?si=bPTgl0F6VfjZxYxw"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="video-info-bar">
+                                <span class="badge bg-danger pulse-badge me-2">LIVE DEMO</span>
+                                <span id="current-step-indicator" class="text-white-50">Step 1: Downloading SEB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Active Stepper -->
+                <div class="col-lg-6 fade-up">
+                    <div class="stepper-vertical">
+
+                        <!-- Step 1 -->
+                        <div class="step-card active" data-step="1" data-video="0rkdqSHzcjM" data-time="0">
+                            <div class="step-card-header">
+                                <div class="step-badge">01</div>
+                                <div class="step-title-wrap">
+                                    <h5 class="step-card-title">Download SEB Installer</h5>
+                                    <span class="step-duration"><i class="bi bi-clock"></i> Step 1 Video</span>
+                                </div>
+                                <span class="step-icon-chevron"><i class="bi bi-chevron-down"></i></span>
+                            </div>
+                            <div class="step-card-body">
+                                <p class="text-secondary small mb-0">Download the appropriate installer for your desktop
+                                    operating system. Do not install on mobile devices or tablets as they are not
+                                    supported.</p>
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <button class="btn btn-brand btn-sm" data-download-app="Windows"
+                                        data-download-url="https://github.com/SafeExamBrowser/seb-win-refactoring/releases/download/v3.10.1/SEB_3.10.1.864_SetupBundle.exe">
+                                        <i class="bi bi-windows me-1"></i> Windows
+                                    </button>
+                                    <button class="btn btn-brand btn-sm" data-download-app="macOS"
+                                        data-download-url="https://github.com/SafeExamBrowser/seb-mac/releases/download/3.6.1/SafeExamBrowser-3.6.1.dmg">
+                                        <i class="bi bi-apple me-1"></i> macOS
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="step-card" data-step="2" data-video="ezbJwaLmOeM" data-time="0">
+                            <div class="step-card-header">
+                                <div class="step-badge">02</div>
+                                <div class="step-title-wrap">
+                                    <h5 class="step-card-title">Allow Device Permissions</h5>
+                                    <span class="step-duration"><i class="bi bi-clock"></i> Step 2 Video</span>
+                                </div>
+                                <span class="step-icon-chevron"><i class="bi bi-chevron-down"></i></span>
+                            </div>
+                            <div class="step-card-body">
+                                <p class="text-secondary small mb-0">SEB needs camera and microphone access at both the
+                                    operating system level and within its browser. Follow the guides below to verify
+                                    permissions:</p>
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <a href="#windows-permissions" class="btn btn-outline-brand btn-sm">
+                                        <i class="bi bi-windows me-1"></i> Windows Setup
+                                    </a>
+                                    <a href="#macos-permissions" class="btn btn-outline-brand btn-sm">
+                                        <i class="bi bi-apple me-1"></i> macOS Setup
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="step-card" data-step="3" data-video="kM9Z8Uqf6p4" data-time="0">
+                            <div class="step-card-header">
+                                <div class="step-badge">03</div>
+                                <div class="step-title-wrap">
+                                    <h5 class="step-card-title">Download Configuration File</h5>
+                                    <span class="step-duration"><i class="bi bi-clock"></i> Step 3 Video</span>
+                                </div>
+                                <span class="step-icon-chevron"><i class="bi bi-chevron-down"></i></span>
+                            </div>
+                            <div class="step-card-body">
+                                <p class="text-secondary small mb-0">Download your unique exam configuration file. This
+                                    file securely locks down your browser and connects you to the exam servers.</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-brand btn-sm" id="downloadSebConfigStepper">
+                                        <i class="bi bi-file-earmark-arrow-down me-1"></i> Download Configuration (.seb)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="step-card" data-step="4" data-video="g4m39f7-Q1Q" data-time="0">
+                            <div class="step-card-header">
+                                <div class="step-badge">04</div>
+                                <div class="step-title-wrap">
+                                    <h5 class="step-card-title">Launch Exam</h5>
+                                    <span class="step-duration"><i class="bi bi-clock"></i> Step 4 Video</span>
+                                </div>
+                                <span class="step-icon-chevron"><i class="bi bi-chevron-down"></i></span>
+                            </div>
+                            <div class="step-card-body">
+                                <p class="text-secondary small mb-0">Double-click the downloaded <code>.seb</code>
+                                    configuration file to launch the exam browser directly. Enter your credentials,
+                                    allow browser permissions, and start your exam!</p>
+                                <div class="mt-3">
+                                    <a href="#start-exam" class="btn btn-brand btn-sm">
+                                        <i class="bi bi-play-circle me-1"></i> Start Walkthrough
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     3. DOWNLOAD SAFE EXAM BROWSER
+============================================================= -->
+    <section class="section divider-tint" id="download-seb">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Step 1</div>
+                <h2 class="section-title">Download Safe Exam Browser</h2>
+                <p class="section-sub mx-auto">Choose the installer that matches your operating system.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-5 fade-up">
+                    <div class="card-ignito p-4 text-center">
+                        <div class="icon-tile mx-auto mb-3"><i class="bi bi-windows"></i></div>
+                        <h5>SEB for Windows</h5>
+                        <p class="text-secondary small">Latest recommended version: <strong>v3.10.1</strong></p>
+                        <button class="btn btn-brand w-100" data-download-app="Windows"
+                            data-download-url="https://github.com/SafeExamBrowser/seb-win-refactoring/releases/download/v3.10.1/SEB_3.10.1.864_SetupBundle.exe"><i
+                                class="bi bi-download me-1"></i> Download SEB for Windows</button>
+                    </div>
+                </div>
+                <div class="col-md-5 fade-up">
+                    <div class="card-ignito p-4 text-center">
+                        <div class="icon-tile mx-auto mb-3"><i class="bi bi-apple"></i></div>
+                        <h5>SEB for macOS</h5>
+                        <p class="text-secondary small">Latest recommended version: <strong>v3.6.1</strong></p>
+                        <button class="btn btn-brand w-100" data-download-app="macOS"
+                            data-download-url="https://github.com/SafeExamBrowser/seb-mac/releases/download/3.6.1/SafeExamBrowser-3.6.1.dmg"><i
+                                class="bi bi-download me-1"></i> Download SEB for macOS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     4. BEFORE INSTALLING — CHECKLIST
+============================================================= -->
+    <section class="section" id="before-installing">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Preparation</div>
+                <h2 class="section-title">Before Installing</h2>
+                <p class="section-sub mx-auto">Make sure the following are ready before you begin installation.</p>
+            </div>
+            <div class="row g-3">
+                <!-- Each checklist card reuses the same markup pattern -->
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>Stable Internet Connection</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>Webcam Working</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>Microphone Working</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>Laptop Charged</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>Charger Connected</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>VPN Closed</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 fade-up">
+                    <div class="d-flex align-items-center gap-3 p-3 border rounded-3 h-100">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i><span>All Browser Tabs Closed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     5. CLOSE THESE APPLICATIONS BEFORE EXAM
+============================================================= -->
+    <section class="section divider-tint" id="close-apps">
+        <div class="container">
+            <div class="text-center mb-4 fade-up">
+                <div class="eyebrow">Important</div>
+                <h2 class="section-title">Close These Applications Before Exam</h2>
+                <p class="section-sub mx-auto">
+                    Remote access, screen recording, virtualization and chat applications can interfere with SEB's
+                    lockdown mode,
+                    pose an academic-integrity risk, or consume system resources needed for the exam. Close all of the
+                    following before you begin.
+                </p>
+            </div>
+            <div class="alert alert-warning d-flex align-items-start gap-2 fade-up" role="alert">
+                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                <div><strong>Why this matters:</strong> SEB automatically detects remote-access and screen-capture
+                    tools. If any are running, the exam will not start until they are closed.</div>
+            </div>
+            <div class="row g-3 row-cols-2 row-cols-sm-3 row-cols-lg-5">
+                <!-- Application list — icons are generic placeholders using Bootstrap Icons -->
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-display"></i>
+                        <div class="app-name">AnyDesk</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-display"></i>
+                        <div class="app-name">TeamViewer</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-display"></i>
+                        <div class="app-name">RustDesk</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-display"></i>
+                        <div class="app-name">Chrome Remote Desktop</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-pc-display"></i>
+                        <div class="app-name">Remote Desktop</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-record-circle"></i>
+                        <div class="app-name">OBS Studio</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-record-circle"></i>
+                        <div class="app-name">Bandicam</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-camera-video"></i>
+                        <div class="app-name">Screen Recorder</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-camera-video-fill"></i>
+                        <div class="app-name">Zoom</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-camera-video-fill"></i>
+                        <div class="app-name">Google Meet</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-camera-video-fill"></i>
+                        <div class="app-name">Microsoft Teams</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-chat-dots"></i>
+                        <div class="app-name">Discord</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-controller"></i>
+                        <div class="app-name">Steam</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-hdd-stack"></i>
+                        <div class="app-name">VirtualBox</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-hdd-stack"></i>
+                        <div class="app-name">VMware</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-phone"></i>
+                        <div class="app-name">BlueStacks</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-code-square"></i>
+                        <div class="app-name">AutoHotKey</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-tools"></i>
+                        <div class="app-name">PowerToys</div>
+                    </div>
+                </div>
+                <div class="col fade-up">
+                    <div class="app-card"><i class="bi bi-clipboard"></i>
+                        <div class="app-name">Clipboard Managers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     6. DISABLE BACKGROUND APPLICATIONS
+============================================================= -->
+    <section class="section" id="background-apps">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">System Settings</div>
+                <h2 class="section-title">Disable Background Applications</h2>
+                <p class="section-sub mx-auto">A step-by-step guide to freeing up system resources before your exam.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="icon-tile mb-3"><i class="bi bi-list-task"></i></div>
+                        <h5>1. Task Manager</h5>
+                        <ol class="text-secondary ps-3 mb-0">
+                            <li>Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd></li>
+                            <li>Select any non-essential running app</li>
+                            <li>Click <strong>End Task</strong></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="icon-tile mb-3"><i class="bi bi-toggle-off"></i></div>
+                        <h5>2. Startup Apps</h5>
+                        <ol class="text-secondary ps-3 mb-0">
+                            <li>Open <strong>Settings &gt; Apps &gt; Startup</strong></li>
+                            <li>Toggle off unnecessary apps</li>
+                            <li>Restart your computer</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="icon-tile mb-3"><i class="bi bi-cpu"></i></div>
+                        <h5>3. Background Apps</h5>
+                        <ol class="text-secondary ps-3 mb-0">
+                            <li>Open <strong>Settings &gt; Privacy &gt; Background Apps</strong></li>
+                            <li>Turn off apps not required for the exam</li>
+                            <li>Keep only SEB and system processes running</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     7. INSTALL SAFE EXAM BROWSER — TIMELINE
+============================================================= -->
+    <section class="section divider-tint" id="install-seb">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Installation</div>
+                <h2 class="section-title">Install Safe Exam Browser</h2>
+                <p class="section-sub mx-auto">Three simple steps to get SEB installed and ready.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 fade-up">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot">1</div>
+                            <div class="timeline-card">
+                                <h5><i class="bi bi-download text-brand me-2"></i>Download</h5>
+                                <p class="text-secondary mb-0">Download the SEB installer for your operating system from
+                                    the section above.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">2</div>
+                            <div class="timeline-card">
+                                <h5><i class="bi bi-gear text-brand me-2"></i>Install</h5>
+                                <p class="text-secondary mb-0">Run the installer, accept the license agreement, and
+                                    follow the on-screen setup wizard.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">3</div>
+                            <div class="timeline-card">
+                                <h5><i class="bi bi-check2-circle text-brand me-2"></i>Finish Installation</h5>
+                                <p class="text-secondary mb-0">Click Finish and confirm SEB launches correctly. You are
+                                    now ready to load your exam configuration.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     8, 9, 10. CAMERA / MICROPHONE / BROWSER PERMISSION GUIDES
+============================================================= -->
+    <section class="section" id="permissions">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Permissions</div>
+                <h2 class="section-title">Camera, Microphone &amp; Browser Permissions</h2>
+                <p class="section-sub mx-auto">SEB needs these permissions to proctor your exam session correctly.</p>
+            </div>
+            <div class="row g-4">
+                <!-- Camera Permission Guide -->
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4 h-100">
+                        <div class="icon-tile mb-3"><i class="bi bi-camera-video"></i></div>
+                        <h5>Camera Permission Guide</h5>
+                        <ul class="text-secondary ps-3">
+                            <li>Open SEB</li>
+                            <li>Click <strong>Allow</strong> when prompted for camera</li>
+                            <li>Allow the microphone as well</li>
+                            <li>Do not click <strong>Block</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Microphone Permission Guide -->
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4 h-100">
+                        <div class="icon-tile mb-3"><i class="bi bi-mic"></i></div>
+                        <h5>Microphone Permission Guide</h5>
+                        <ul class="text-secondary ps-3">
+                            <li>When SEB requests microphone access, click <strong>Allow</strong></li>
+                            <li>Speak briefly to confirm the input level indicator moves</li>
+                            <li>If muted by default, unmute from system sound settings</li>
+                            <li>Never deny microphone access during exam launch</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Browser Permission Guide -->
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4 h-100">
+                        <div class="icon-tile mb-3"><i class="bi bi-window"></i></div>
+                        <h5>Browser Permission Guide</h5>
+                        <ul class="text-secondary ps-3">
+                            <li>SEB uses its own embedded browser — no separate browser setup is required</li>
+                            <li>If prompted, allow SEB to access the microphone and camera at the browser layer too</li>
+                            <li>Clear cache if a permission prompt does not appear</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     11. WINDOWS PERMISSION GUIDE
+============================================================= -->
+    <section class="section divider-tint" id="windows-permissions">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-up">
+                    <div class="eyebrow">Windows</div>
+                    <h2 class="section-title">Windows Permission Guide</h2>
+                    <p class="section-sub">Enable camera and microphone access at the operating-system level so SEB can
+                        use them.</p>
+                    <ol class="text-secondary ps-3">
+                        <li>Open <strong>Settings</strong></li>
+                        <li>Go to <strong>Privacy &amp; Security</strong></li>
+                        <li>Select <strong>Camera</strong> → toggle <strong>Camera access</strong> on</li>
+                        <li>Select <strong>Microphone</strong> → toggle <strong>Microphone access</strong> on</li>
+                        <li>Ensure "Let apps access your camera/microphone" is enabled</li>
+                    </ol>
+                </div>
+                <div class="col-lg-6 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-tile"><i class="bi bi-windows"></i></div>
+                            <h5 class="mb-0">Windows Privacy Path</h5>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-brand-100 text-brand p-2">Settings</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Privacy &amp; Security</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Camera</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Microphone</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Enable Access</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     12. macOS PERMISSION GUIDE
+============================================================= -->
+    <section class="section" id="macos-permissions">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-lg-2 fade-up">
+                    <div class="eyebrow">macOS</div>
+                    <h2 class="section-title">macOS Permission Guide</h2>
+                    <p class="section-sub">macOS requires explicit permission grants for camera, microphone, screen
+                        recording and accessibility.</p>
+                    <ol class="text-secondary ps-3">
+                        <li>Open <strong>System Settings</strong></li>
+                        <li>Go to <strong>Privacy &amp; Security</strong></li>
+                        <li>Enable <strong>Camera</strong> access for Safe Exam Browser</li>
+                        <li>Enable <strong>Microphone</strong> access for Safe Exam Browser</li>
+                        <li>Enable <strong>Screen Recording</strong> for Safe Exam Browser</li>
+                        <li>Enable <strong>Accessibility</strong> for Safe Exam Browser</li>
+                    </ol>
+                </div>
+                <div class="col-lg-6 order-lg-1 fade-up">
+                    <div class="card-ignito p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-tile"><i class="bi bi-apple"></i></div>
+                            <h5 class="mb-0">macOS Privacy Path</h5>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-brand-100 text-brand p-2">System Settings</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Privacy &amp; Security</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Camera</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Microphone</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Screen Recording</span>
+                            <span class="badge bg-brand-100 text-brand p-2">Accessibility</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     13. DOWNLOAD EXAM CONFIGURATION
+============================================================= -->
+    <section class="section divider-tint" id="exam-config">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 fade-up">
+                    <div class="card-ignito p-5 text-center">
+                        <div class="icon-tile mx-auto mb-3" style="width:72px;height:72px;font-size:2rem;"><i
+                                class="bi bi-file-earmark-lock2"></i></div>
+                        <h2 class="section-title">Download Exam Configuration</h2>
+                        <p class="section-sub mx-auto mb-4">This .seb configuration file locks your browser into exam
+                            mode and connects you directly to your GTU exam session.</p>
+                        <button class="btn btn-brand btn-lg" id="downloadSebConfigMain"><i
+                                class="bi bi-download me-2"></i>Download GTU-Online-MBA-IB-W25.seb</button>
+                        <div class="alert alert-info mt-4 text-start d-flex gap-2 mb-0">
+                            <i class="bi bi-info-circle-fill fs-5"></i>
+                            <div>Once downloaded, students must <strong>double-click this file</strong> to launch Safe
+                                Exam Browser directly into their exam — do not open SEB manually first.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     14. START EXAM — PROGRESS STEPS
+============================================================= -->
+    <section class="section" id="start-exam">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Exam Day</div>
+                <h2 class="section-title">How to start exam</h2>
+                <p class="section-sub mx-auto">Follow this exact sequence on the day of your exam.</p>
+            </div>
+            <div class="progress-steps fade-up">
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>Download .seb file</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>Double click file</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>SEB opens</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>Login with credentials</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>Allow camera</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>Allow microphone</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-num"></div>
+                    <div>Start exam</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     15. IMPORTANT RULES
+============================================================= -->
+    <section class="section divider-tint" id="rules">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">During the Exam</div>
+                <h2 class="section-title">Important Rules</h2>
+                <p class="section-sub mx-auto">Violating any of these rules may end your exam session automatically.</p>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6 fade-up">
+                    <div class="rule-card d-flex align-items-center gap-3"><i class="bi bi-x-octagon-fill"></i><span>Do
+                            not minimize the Safe Exam Browser window</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-card d-flex align-items-center gap-3"><i class="bi bi-x-octagon-fill"></i><span>Do
+                            not close Safe Exam Browser</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-card d-flex align-items-center gap-3"><i class="bi bi-x-octagon-fill"></i><span>Do
+                            not unplug your internet connection</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-card d-flex align-items-center gap-3"><i class="bi bi-x-octagon-fill"></i><span>Do
+                            not use another monitor</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-card d-flex align-items-center gap-3"><i class="bi bi-x-octagon-fill"></i><span>Do
+                            not connect a mobile device to your computer</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     16. LIVE CHECKLIST (interactive)
+============================================================= -->
+    <section class="section" id="live-checklist">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 fade-up">
+                    <div class="text-center mb-4">
+                        <div class="eyebrow">Interactive</div>
+                        <h2 class="section-title">Live Checklist</h2>
+                        <p class="section-sub mx-auto">Tick each item as you complete it. Your progress is tracked
+                            below.</p>
+                    </div>
+
+                    <!-- Progress bar reflects the checklist state via JS -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">Setup Progress</span>
+                        <span class="fw-semibold text-brand" id="checklistPercentLabel">0%</span>
+                    </div>
+                    <div class="progress mb-4" style="height:10px; border-radius:50px;">
+                        <div class="progress-bar bg-primary" id="checklistProgressBar" role="progressbar"
+                            style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <div id="liveChecklist">
+                        <!-- Checklist items are rendered here by JavaScript (see script at bottom) -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     17. FREQUENTLY ASKED QUESTIONS (20 FAQs)
+============================================================= -->
+    <section class="section divider-tint" id="faq">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">FAQ</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-sub mx-auto">Answers to the most common questions students ask before exam day.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-9 fade-up">
+                    <div class="accordion" id="faqAccordion">
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq1">1. What is Safe Exam Browser
+                                    (SEB)?</button></h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">SEB is a locked-down browser application that prevents
+                                    access to other programs and websites while you take your exam.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq2">2. Is SEB free to
+                                    download?</button></h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Yes, Safe Exam Browser is completely free for students to
+                                    download and install.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq3">3. Can I use my mobile phone for
+                                    the exam?</button></h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">No, SEB currently supports Windows and macOS desktop or
+                                    laptop computers only.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq4">4. What happens if I close SEB
+                                    during the exam?</button></h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Your exam session will end immediately and may be flagged
+                                    for review by your instructor.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq5">5. Why does SEB need camera
+                                    access?</button></h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Camera access is used for identity verification and
+                                    proctoring throughout the exam session.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq6">6. What if my microphone is not
+                                    detected?</button></h2>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Check your system sound settings to confirm the correct
+                                    input device is selected, then restart SEB.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq7">7. Can I take the exam using a
+                                    VPN?</button></h2>
+                            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">No, VPN connections must be disabled before starting the
+                                    exam to avoid connectivity issues.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq8">8. Do I need to close Zoom or Teams
+                                    before the exam?</button></h2>
+                            <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Yes, all video-conferencing applications must be fully
+                                    closed, not just minimized.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq9">9. What if my internet disconnects
+                                    mid-exam?</button></h2>
+                            <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">SEB will attempt to reconnect automatically. If the issue
+                                    persists, contact support immediately using the number provided.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq10">10. Can I use dual monitors during
+                                    the exam?</button></h2>
+                            <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">No, only a single monitor is allowed. Additional displays
+                                    must be disconnected before starting.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq11">11. How do I open the exam
+                                    configuration file?</button></h2>
+                            <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Locate GTU-Online-MBA-IB-W25.seb in your downloads folder and
+                                    double-click it to launch SEB directly into your exam.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq12">12. What should I do if SEB fails
+                                    to install?</button></h2>
+                            <div id="faq12" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Ensure you downloaded the correct installer for your OS,
+                                    then re-run it as an administrator or with elevated privileges.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq13">13. Will SEB record my
+                                    screen?</button></h2>
+                            <div id="faq13" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">SEB may capture screen activity for proctoring purposes as
+                                    configured by your institution.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq14">14. Can I pause the exam once
+                                    started?</button></h2>
+                            <div id="faq14" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Pausing is not supported. Ensure you have enough
+                                    uninterrupted time before starting your exam.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq15">15. What if I accidentally deny
+                                    camera permission?</button></h2>
+                            <div id="faq15" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Re-enable camera access from your operating system's privacy
+                                    settings, then restart SEB and reload the exam link.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq16">16. Is background noise allowed
+                                    during the exam?</button></h2>
+                            <div id="faq16" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Please take your exam in a quiet room. Excessive background
+                                    noise may be flagged during proctoring review.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq17">17. Can someone else be in the
+                                    room during my exam?</button></h2>
+                            <div id="faq17" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">No, you must take the exam alone in a private space unless
+                                    otherwise instructed by your institution.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq18">18. What browsers can I use
+                                    instead of SEB?</button></h2>
+                            <div id="faq18" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">None — regular browsers such as Chrome, Edge or Safari
+                                    cannot be used to access the locked exam environment.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq19">19. How early should I log in
+                                    before my exam?</button></h2>
+                            <div id="faq19" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">We recommend logging in at least 15 minutes early to
+                                    complete permission checks and avoid a delayed start.</div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq20">20. Who do I contact if I face
+                                    technical issues?</button></h2>
+                            <div id="faq20" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">Reach the GTU support team via phone, email, or live
+                                    chat listed in the Need Help section below.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     18. NEED HELP
+============================================================= -->
+    <section class="section" id="help">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Support</div>
+                <h2 class="section-title">Need Help?</h2>
+                <p class="section-sub mx-auto">Our support team is available to assist you before and during your exam.
+                </p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4 text-center">
+                        <div class="icon-tile mx-auto mb-3 success"><i class="bi bi-telephone-fill"></i></div>
+                        <h5>Support Number</h5>
+                        <p class="text-secondary mb-0">+91 1800-123-4567</p>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4 text-center">
+                        <div class="icon-tile mx-auto mb-3"><i class="bi bi-envelope-fill"></i></div>
+                        <h5>Email</h5>
+                        <p class="text-secondary mb-0">onlineexam@gtu.edu.in</p>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-up">
+                    <div class="card-ignito p-4 text-center">
+                        <div class="icon-tile mx-auto mb-3 warn"><i class="bi bi-chat-dots-fill"></i></div>
+                        <h5>Live Chat</h5>
+                        <button class="btn btn-outline-brand mt-2" id="liveChatBtn"><i
+                                class="bi bi-chat-left-text me-1"></i> Start Live Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     19. FOOTER
+============================================================= -->
+    <footer class="site-footer py-5">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-shield-check fs-4 text-white"></i>
+                        <span class="fs-5 fw-bold text-white">GTU</span>
+                    </div>
+                    <p class="mb-0 small">Empowering secure, reliable online examinations.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex gap-3 justify-content-md-end mb-2">
+                        <a href="#top"><i class="bi bi-arrow-up-circle"></i> Back to top</a>
+                        <a href="#faq">FAQ</a>
+                        <a href="#help">Support</a>
+                    </div>
+                    <p class="mb-0 small">&copy; 2026 GTU. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast container for lightweight notifications (downloads, chat, etc.) -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:1080;">
+        <div id="appToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="appToastBody">Notification</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        /* ============================================================
+           GTU SEB Guide — Front-end behaviour
+           All logic is vanilla JS.
+        ============================================================= */
+        (function () {
+            "use strict";
+
+            /* ---------- Toast helper ---------- */
+            var toastEl = document.getElementById('appToast');
+            var toastBody = document.getElementById('appToastBody');
+            var bsToast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            function showToast(message) {
+                toastBody.textContent = message;
+                bsToast.show();
+            }
+
+            /* Hook up all elements that download the .seb configuration */
+            var sebDownloadTriggers = [
+                document.getElementById('downloadSebConfigHero'),
+                document.getElementById('downloadSebConfigMain'),
+                document.getElementById('downloadSebConfigStepper')
+            ];
+            sebDownloadTriggers.forEach(function (el) {
+                if (!el) return;
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showToast('Downloading GTU-Online-MBA-IB-W25.seb…');
+                    var a = document.createElement('a');
+                    a.href = 'sebfile/GTU-Online-MBA-IB-W25.seb';
+                    a.download = 'GTU-Online-MBA-IB-W25.seb';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                });
+            });
+
+            /* Student Guide PDF placeholder download */
+            var guidePdfBtn = document.getElementById('downloadGuidePdf');
+            if (guidePdfBtn) {
+                guidePdfBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showToast('Preparing Student Guide PDF for download…');
+                });
+            }
+
+            /* Platform installer buttons (Windows / macOS) — direct download */
+            document.querySelectorAll('[data-download-app]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var platform = btn.getAttribute('data-download-app');
+                    var url = btn.getAttribute('data-download-url');
+                    showToast('Starting SEB download for ' + platform + '…');
+                    if (url) {
+                        window.open(url, '_blank');
+                    }
+                });
+            });
+
+            /* Live Chat button */
+            var liveChatBtn = document.getElementById('liveChatBtn');
+            if (liveChatBtn) {
+                liveChatBtn.addEventListener('click', function () {
+                    showToast('Connecting you to a live support agent…');
+                });
+            }
+
+            /* ---------- YouTube Player API Integration ---------- */
+            var player;
+            var isPlayerReady = false;
+
+            // Dynamically load YouTube Player API to prevent race conditions
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            window.onYouTubeIframeAPIReady = function () {
+                player = new YT.Player('yt-player', {
+                    events: {
+                        'onReady': onPlayerReady
+                    }
+                });
+            };
+
+            function onPlayerReady(event) {
+                isPlayerReady = true;
+            }
+
+            /* ---------- Interactive Stepper Logic ---------- */
+            var stepCards = document.querySelectorAll('.step-card');
+            var stepIndicator = document.getElementById('current-step-indicator');
+
+            stepCards.forEach(function (card) {
+                card.addEventListener('click', function () {
+                    // Remove active class from all steps
+                    stepCards.forEach(function (c) {
+                        c.classList.remove('active');
+                    });
+
+                    // Add active class to clicked step
+                    card.classList.add('active');
+
+                    var stepNum = card.getAttribute('data-step');
+                    var timeSeconds = parseInt(card.getAttribute('data-time'), 10);
+                    var stepTitle = card.querySelector('.step-card-title').textContent;
+
+                    // Update indicator
+                    if (stepIndicator) {
+                        stepIndicator.textContent = 'Step ' + stepNum + ': ' + stepTitle;
+                    }
+
+                    // Load video and start playing
+                    var videoId = card.getAttribute('data-video');
+                    if (isPlayerReady && player && videoId) {
+                        try {
+                            player.loadVideoById({
+                                videoId: videoId,
+                                startSeconds: timeSeconds || 0
+                            });
+                        } catch (err) {
+                            console.log('Error loading video by ID:', err);
+                        }
+                    }
+                });
+            });
+
+            /* ---------- 16. Live Checklist rendering + progress tracking ---------- */
+            var checklistItems = [
+                'I have installed Safe Exam Browser',
+                'I have downloaded GTU-Online-MBA-IB-W25.seb',
+                'My camera permission is allowed',
+                'My microphone permission is allowed',
+                'All remote-access & recording apps are closed',
+                'My internet connection is stable',
+                'My laptop is charged / charger connected',
+                'I have read the Important Rules'
+            ];
+
+            var checklistContainer = document.getElementById('liveChecklist');
+            var progressBar = document.getElementById('checklistProgressBar');
+            var percentLabel = document.getElementById('checklistPercentLabel');
+
+            // Render each checklist row dynamically
+            checklistItems.forEach(function (label, index) {
+                var id = 'chk_' + index;
+                var wrapper = document.createElement('div');
+                wrapper.className = 'checklist-item';
+                wrapper.innerHTML =
+                    '<input class="form-check-input m-0" type="checkbox" id="' + id + '">' +
+                    '<label for="' + id + '">' + label + '</label>' +
+                    '<i class="bi bi-check-circle-fill text-success d-none check-icon"></i>';
+                checklistContainer.appendChild(wrapper);
+            });
+
+            function updateChecklistProgress() {
+                var checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
+                var checkedCount = checklistContainer.querySelectorAll('input[type="checkbox"]:checked').length;
+                var percent = Math.round((checkedCount / checkboxes.length) * 100);
+
+                progressBar.style.width = percent + '%';
+                progressBar.setAttribute('aria-valuenow', percent);
+                percentLabel.textContent = percent + '%';
+
+                // Colour the bar based on completion level
+                progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-primary');
+                if (percent === 100) {
+                    progressBar.classList.add('bg-success');
+                } else if (percent >= 50) {
+                    progressBar.classList.add('bg-primary');
+                } else {
+                    progressBar.classList.add('bg-warning');
+                }
+
+                if (percent === 100) {
+                    showToast('All set! You have completed the pre-exam checklist.');
+                }
+            }
+
+            // Delegate change events for all checklist checkboxes
+            checklistContainer.addEventListener('change', function (e) {
+                if (e.target.matches('input[type="checkbox"]')) {
+                    var row = e.target.closest('.checklist-item');
+                    var icon = row.querySelector('.check-icon');
+                    if (e.target.checked) {
+                        row.classList.add('checked');
+                        icon.classList.remove('d-none');
+                    } else {
+                        row.classList.remove('checked');
+                        icon.classList.add('d-none');
+                    }
+                    updateChecklistProgress();
+                }
+            });
+
+            /* ---------- Scroll reveal animation (IntersectionObserver) ---------- */
+            var fadeEls = document.querySelectorAll('.fade-up');
+            if ('IntersectionObserver' in window) {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('in-view');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+                fadeEls.forEach(function (el) { observer.observe(el); });
+            } else {
+                // Fallback: reveal everything immediately if IntersectionObserver is unsupported
+                fadeEls.forEach(function (el) { el.classList.add('in-view'); });
+            }
+
+            /* ---------- Smooth active-link highlight on navbar (optional UX polish) ---------- */
+            var navLinks = document.querySelectorAll('.navbar-ignito .nav-link');
+            navLinks.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    navLinks.forEach(function (l) { l.classList.remove('active'); });
+                    link.classList.add('active');
+                    // Collapse mobile menu after navigation
+                    var collapseEl = document.getElementById('mainNav');
+                    var bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
+                    if (bsCollapse && collapseEl.classList.contains('show')) {
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+        })();
+    </script>
+</body>
+
+</html>

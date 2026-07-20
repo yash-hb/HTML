@@ -1,0 +1,3086 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTU — SEB Student Setup Guide</title>
+    <meta name="description"
+        content="Step-by-step guide to install, configure and use the Safe Exam Browser for GTU online examinations.">
+    <link rel="icon" type="image/png" href="logo/logo (1s).png">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts: Outfit + Work Sans (UI/UX Pro Max "Geometric Modern" pairing) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================================
+            GTU Crimson Red Palette — matches index.html
+            Primary: #be2126 | Dark: #570a0d | BG: #ffffff
+        ============================================================= */
+        :root {
+            --p-dark: #ffffff;
+            --p-card: #fff9f9;
+            --p-muted: #fff0f1;
+            --p-border: rgba(190, 33, 38, .12);
+            --p-primary: #be2126;
+            --p-accent: #be2126;
+            --p-accent2: #e42f2e;
+            --p-text: #1f1f25;
+            --p-sub: #5f6c80;
+            --p-green: #22C55E;
+            --p-red: #EF4444;
+            --radius: 1rem;
+            --radius-sm: .6rem;
+            --t: all .28s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: #ffffff;
+            color: var(--p-text);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fff0f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--p-primary);
+            border-radius: 3px;
+        }
+
+        .text-accent {
+            color: var(--p-accent) !important;
+        }
+
+        .text-sub {
+            color: var(--p-sub) !important;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-family: 'Outfit', sans-serif;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--p-accent);
+            background: rgba(190, 33, 38, .08);
+            border: 1px solid rgba(190, 33, 38, .22);
+            border-radius: 50px;
+            padding: .25rem .85rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+            color: var(--p-text);
+        }
+
+        .section-sub {
+            color: var(--p-sub);
+            max-width: 600px;
+            font-size: 1.05rem;
+            line-height: 1.65;
+        }
+
+        .section {
+            padding: 3.5rem 0;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .55s ease, transform .55s ease;
+        }
+
+        .fade-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NAVBAR */
+        .navbar-dark-glass {
+            background: rgba(255, 255, 255, .94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--p-border);
+            padding: .7rem 0;
+        }
+
+        .navbar-dark-glass .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #570a0d;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .navbar-dark-glass .navbar-brand span {
+            color: var(--p-accent);
+        }
+
+        .navbar-dark-glass .nav-link {
+            color: var(--p-text) !important;
+            font-weight: 500;
+            font-size: .93rem;
+            transition: var(--t);
+            padding: .45rem .9rem !important;
+            border-radius: var(--radius-sm);
+        }
+
+        .navbar-dark-glass .nav-link:hover {
+            color: var(--p-accent) !important;
+            background: rgba(190, 33, 38, .06);
+        }
+
+        .btn-nav-pill {
+            background: var(--p-accent);
+            color: #fff !important;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            padding: .5rem 1.4rem;
+            font-size: .9rem;
+            transition: var(--t);
+        }
+
+        .btn-nav-pill:hover {
+            background: #a31418;
+            transform: translateY(-1px);
+        }
+
+        /* HERO */
+        .hero-dark {
+            position: relative;
+            background: linear-gradient(135deg, #fffafb 0%, #fff0f1 50%, #ffe8ea 100%);
+            display: flex;
+            align-items: center;
+            padding: 5.5rem 0 4.5rem;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(190, 33, 38, .1);
+        }
+
+        .aurora {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .35;
+            pointer-events: none;
+            animation: aurora-drift 18s ease-in-out infinite alternate;
+        }
+
+        .aurora-1 {
+            width: 550px;
+            height: 550px;
+            background: rgba(190, 33, 38, .08);
+            top: -150px;
+            right: -100px;
+            animation-duration: 20s;
+        }
+
+        .aurora-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(228, 47, 46, .07);
+            bottom: -100px;
+            left: -80px;
+            animation-duration: 14s;
+            animation-delay: -5s;
+        }
+
+        .aurora-3 {
+            width: 300px;
+            height: 300px;
+            background: rgba(190, 33, 38, .04);
+            top: 40%;
+            left: 50%;
+            animation-duration: 22s;
+            animation-delay: -10s;
+        }
+
+        @keyframes aurora-drift {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(20px, -15px) scale(1.12);
+            }
+        }
+
+        .hero-dark .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            background: rgba(190, 33, 38, .08);
+            border: 1px solid rgba(190, 33, 38, .25);
+            border-radius: 50px;
+            color: var(--p-accent);
+            font-size: .82rem;
+            font-weight: 600;
+            padding: .35rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--p-green);
+            border-radius: 50%;
+            animation: pulse-dot 1.4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, .5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+            }
+        }
+
+        .hero-dark h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            line-height: 1.12;
+            color: #570a0d;
+        }
+
+        .hero-dark h1 .gradient-text {
+            background: linear-gradient(90deg, #be2126, #e42f2e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-dark p.lead {
+            color: var(--p-sub);
+            max-width: 580px;
+            font-size: 1.08rem;
+        }
+
+        .btn-cta-primary {
+            background: linear-gradient(90deg, #be2126, #a31418);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: .8rem 2rem;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 8px 24px rgba(190, 33, 38, .25);
+            transition: var(--t);
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .btn-cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(190, 33, 38, .35);
+            color: #fff;
+        }
+
+        .btn-cta-outline {
+            background: transparent;
+            color: var(--p-accent);
+            border: 1.5px solid var(--p-border);
+            border-radius: 50px;
+            padding: .8rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--t);
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .btn-cta-outline:hover {
+            border-color: var(--p-primary);
+            background: rgba(190, 33, 38, .07);
+            color: var(--p-primary);
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: rgba(255, 249, 249, .85);
+            border: 1px solid var(--p-border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(20px);
+        }
+
+        .checklist-row {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .7rem 0;
+            border-bottom: 1px solid rgba(190, 33, 38, .08);
+        }
+
+        .checklist-row:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, .12);
+            border: 1px solid rgba(34, 197, 94, .28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--p-green);
+            font-size: .85rem;
+            flex-shrink: 0;
+        }
+
+        /* Cards */
+        .dark-card {
+            background: #ffffff;
+            border: 1px solid rgba(190, 33, 38, .1);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: var(--t);
+            box-shadow: 0 4px 16px rgba(190, 33, 38, .05);
+        }
+
+        .dark-card:hover {
+            border-color: rgba(190, 33, 38, .3);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(190, 33, 38, .12);
+        }
+
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            background: rgba(190, 33, 38, .1);
+            color: var(--p-primary);
+        }
+
+        .icon-box.orange {
+            background: rgba(190, 33, 38, .08);
+            color: var(--p-accent);
+        }
+
+        .icon-box.green {
+            background: rgba(34, 197, 94, .11);
+            color: var(--p-green);
+        }
+
+        .icon-box.red {
+            background: rgba(239, 68, 68, .11);
+            color: var(--p-red);
+        }
+
+        .platform-badge {
+            background: rgba(190, 33, 38, .1);
+            color: var(--p-accent);
+            border: 1px solid rgba(190, 33, 38, .22);
+            border-radius: 50px;
+            font-size: .75rem;
+            font-weight: 600;
+            padding: .2rem .75rem;
+        }
+
+        /* STEP TABS */
+        .step-tabs {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .step-tab {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            padding: .6rem 1.25rem;
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .15);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--t);
+            font-size: .88rem;
+            font-weight: 500;
+            color: var(--p-sub);
+            user-select: none;
+        }
+
+        .step-tab:hover {
+            border-color: var(--p-accent);
+            color: var(--p-accent);
+        }
+
+        .step-tab.active {
+            background: linear-gradient(90deg, #be2126, #a31418);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(190, 33, 38, .25);
+        }
+
+        .step-tab .tab-num {
+            width: 22px;
+            height: 22px;
+            background: rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            font-size: .75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-tab:not(.active) .tab-num {
+            background: rgba(190, 33, 38, .12);
+            color: var(--p-primary);
+        }
+
+        /* VIDEO SHELL */
+        .video-shell {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .12);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(190, 33, 38, .1);
+        }
+
+        .video-topbar {
+            background: rgba(87, 10, 13, .95);
+            border-bottom: 1px solid rgba(190, 33, 38, .2);
+            padding: .7rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .dot-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .step-video-panel {
+            display: none;
+        }
+
+        .step-video-panel.active {
+            display: block;
+        }
+
+        /* STEP INSTRUCTIONS */
+        .step-instructions {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .1);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            box-shadow: 0 4px 16px rgba(190, 33, 38, .06);
+        }
+
+        .step-num-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #be2126, #821013);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 6px 20px rgba(190, 33, 38, .3);
+        }
+
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .instruction-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+            padding: .65rem 0;
+            border-bottom: 1px solid rgba(190, 33, 38, .07);
+            color: var(--p-sub);
+            font-size: .95rem;
+        }
+
+        .instruction-list li:last-child {
+            border-bottom: none;
+        }
+
+        .li-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(190, 33, 38, .1);
+            border: 1px solid rgba(190, 33, 38, .22);
+            color: var(--p-primary);
+            font-size: .72rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .action-btn {
+            background: rgba(190, 33, 38, .08);
+            border: 1px solid rgba(190, 33, 38, .25);
+            color: var(--p-accent);
+            border-radius: 50px;
+            padding: .55rem 1.4rem;
+            font-weight: 600;
+            font-size: .88rem;
+            transition: var(--t);
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: var(--p-accent);
+            color: #fff;
+            border-color: var(--p-accent);
+        }
+
+        /* APP CHIPS */
+        .app-chip {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            background: rgba(239, 68, 68, .07);
+            border: 1px solid rgba(239, 68, 68, .18);
+            border-radius: .6rem;
+            padding: .6rem .9rem;
+            transition: var(--t);
+        }
+
+        .app-chip:hover {
+            background: rgba(239, 68, 68, .14);
+            border-color: rgba(239, 68, 68, .38);
+        }
+
+        .app-chip i {
+            color: var(--p-red);
+            font-size: 1.1rem;
+        }
+
+        .app-chip span {
+            font-size: .88rem;
+            font-weight: 500;
+            color: var(--p-sub);
+        }
+
+        /* EXAM TIMELINE */
+        .exam-step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .exam-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .exam-step-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .exam-step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #be2126, #821013);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(190, 33, 38, .3);
+            flex-shrink: 0;
+        }
+
+        .exam-step-line {
+            width: 2px;
+            flex: 1;
+            min-height: 30px;
+            background: linear-gradient(to bottom, rgba(190, 33, 38, .3), rgba(190, 33, 38, .04));
+            margin: 6px 0;
+        }
+
+        .exam-step-card {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .1);
+            border-radius: var(--radius-sm);
+            padding: 1.1rem 1.4rem;
+            flex: 1;
+            transition: var(--t);
+            box-shadow: 0 2px 8px rgba(190, 33, 38, .05);
+        }
+
+        .exam-step-card:hover {
+            border-color: rgba(190, 33, 38, .3);
+        }
+
+        .exam-step-card h6 {
+            color: var(--p-text);
+            font-weight: 600;
+            margin-bottom: .3rem;
+        }
+
+        .exam-step-card p {
+            color: var(--p-sub);
+            font-size: .88rem;
+            margin: 0;
+        }
+
+        /* RULES */
+        .rule-pill {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            background: rgba(239, 68, 68, .07);
+            border: 1px solid rgba(239, 68, 68, .18);
+            border-radius: .7rem;
+            padding: .9rem 1.2rem;
+            transition: var(--t);
+        }
+
+        .rule-pill:hover {
+            background: rgba(239, 68, 68, .13);
+            border-color: rgba(239, 68, 68, .38);
+        }
+
+        .rule-pill i {
+            color: var(--p-red);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .rule-pill span {
+            color: var(--p-sub);
+            font-size: .92rem;
+        }
+
+        /* LIVE CHECKLIST */
+        .cl-widget {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .1);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(190, 33, 38, .06);
+        }
+
+        .cl-item {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            padding: .85rem 1.25rem;
+            border-bottom: 1px solid rgba(190, 33, 38, .07);
+            transition: var(--t);
+            cursor: pointer;
+        }
+
+        .cl-item:last-child {
+            border-bottom: none;
+        }
+
+        .cl-item.checked {
+            background: rgba(34, 197, 94, .05);
+        }
+
+        .cl-item.checked label {
+            text-decoration: line-through;
+            color: var(--p-sub);
+        }
+
+        .cl-item .form-check-input {
+            width: 1.1rem;
+            height: 1.1rem;
+            background-color: transparent;
+            border-color: rgba(190, 33, 38, .3);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .cl-item .form-check-input:checked {
+            background-color: var(--p-accent);
+            border-color: var(--p-accent);
+        }
+
+        .cl-item label {
+            color: var(--p-text);
+            font-size: .93rem;
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+        }
+
+        .progress-dark {
+            height: 8px;
+            background: rgba(190, 33, 38, .08);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #be2126, #821013);
+            border-radius: 50px;
+            transition: width .4s ease;
+        }
+
+        /* PERMISSIONS */
+        .permission-card {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .1);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            height: 100%;
+            transition: var(--t);
+            box-shadow: 0 4px 16px rgba(190, 33, 38, .05);
+        }
+
+        .permission-card:hover {
+            border-color: rgba(190, 33, 38, .35);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(190, 33, 38, .1);
+        }
+
+        .breadcrumb-path {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .bc-step {
+            background: rgba(190, 33, 38, .08);
+            border: 1px solid rgba(190, 33, 38, .2);
+            color: #be2126;
+            border-radius: .4rem;
+            padding: .25rem .65rem;
+            font-size: .78rem;
+            font-weight: 600;
+        }
+
+        .bc-arrow {
+            color: var(--p-sub);
+            font-size: .8rem;
+        }
+
+        /* DOWNLOAD BANNER */
+        .download-banner {
+            background: linear-gradient(135deg, #fff0f1 0%, #ffe8ea 100%);
+            border: 1px solid rgba(190, 33, 38, .2);
+            border-radius: var(--radius);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-banner::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(190, 33, 38, .06);
+            border-radius: 50%;
+            top: -100px;
+            right: -80px;
+            filter: blur(60px);
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .1);
+            border-radius: var(--radius-sm);
+            margin-bottom: .75rem;
+            overflow: hidden;
+            transition: var(--t);
+            box-shadow: 0 2px 8px rgba(190, 33, 38, .04);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(190, 33, 38, .3);
+        }
+
+        .faq-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--p-text);
+            font-weight: 600;
+            font-size: .97rem;
+            text-align: left;
+            padding: 1.1rem 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: var(--t);
+        }
+
+        .faq-btn:hover {
+            color: var(--p-accent);
+        }
+
+        .faq-icon {
+            transition: var(--t);
+            color: var(--p-sub);
+            flex-shrink: 0;
+        }
+
+        .faq-btn.open .faq-icon {
+            transform: rotate(45deg);
+            color: var(--p-accent);
+        }
+
+        .faq-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .35s ease;
+        }
+
+        .faq-body.open {
+            max-height: 300px;
+        }
+
+        .faq-body-inner {
+            color: var(--p-sub);
+            font-size: .93rem;
+            line-height: 1.7;
+            padding: 0 1.4rem 1.1rem;
+        }
+
+        /* SUPPORT STRIP */
+        .support-strip {
+            background: var(--p-card);
+            border-top: 1px solid var(--p-border);
+            border-bottom: 1px solid var(--p-border);
+            padding: 1.25rem 0;
+        }
+
+        /* FOOTER */
+        footer.site-footer {
+            background: #111115;
+            border-top: 3px solid var(--p-primary);
+            padding: 4rem 0 2rem 0;
+            color: #a0a0ad;
+            font-size: 0.9rem;
+        }
+
+        .footer-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .footer-brand span {
+            color: var(--p-accent);
+        }
+
+        .footer-heading {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-link {
+            color: #a0a0ad;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-link:hover {
+            color: var(--p-primary);
+            transform: translateX(3px);
+        }
+
+        .footer-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            color: #8a8a99;
+        }
+
+        .footer-info-item i {
+            color: var(--p-primary);
+        }
+
+        .status-badge-footer {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 0.4rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .status-badge-footer .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 5px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #6e6e77;
+        }
+
+        /* TOAST */
+        #toast-box {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 9999;
+        }
+
+        .toast-dark {
+            background: #fff;
+            border: 1px solid rgba(190, 33, 38, .2);
+            color: var(--p-text);
+            border-radius: var(--radius-sm);
+            padding: .9rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            font-size: .9rem;
+            box-shadow: 0 8px 32px rgba(190, 33, 38, .15);
+            animation: slide-in .3s ease;
+            margin-bottom: .5rem;
+        }
+
+        @keyframes slide-in {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ── YOUTUBE LITE PLAYER ─────────────────────────────────────────────
+           Root cause of Error 153:
+           • enablejsapi=1 without origin= param blocks embed on localhost
+           • Some video owners restrict embedding to specific domains
+           • referrerpolicy headers conflict with YouTube's origin checks
+           Fix: click-to-load (no preflight block), youtube-nocookie.com domain,
+                autoplay=1 injected at runtime, visible fallback link always shown.
+        ──────────────────────────────────────────────────────────────────── */
+        .yt-player {
+            position: relative;
+            overflow: hidden;
+            background: #1a0002;
+        }
+
+        .yt-thumb {
+            position: relative;
+            cursor: pointer;
+            display: block;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: #000000;
+        }
+
+        .yt-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transition: transform .35s ease;
+        }
+
+        .yt-thumb:hover img {
+            transform: scale(1.04);
+        }
+
+        .yt-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: var(--p-primary);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .25s ease;
+            box-shadow: 0 6px 28px rgba(190, 33, 38, .55);
+            pointer-events: none;
+        }
+
+        .yt-thumb:hover .yt-play-btn {
+            transform: translate(-50%, -50%) scale(1.12);
+            background: #a31418;
+        }
+
+        .yt-iframe-wrap {
+            display: none;
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+
+        .yt-iframe-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .yt-error-card {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 16/9;
+            background: #1a0002;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .yt-error-card i {
+            font-size: 2.5rem;
+            color: var(--p-accent);
+            margin-bottom: .75rem;
+        }
+
+        .yt-error-card p {
+            color: rgba(255, 255, 255, .7);
+            font-size: .9rem;
+            margin: .25rem 0 1rem;
+        }
+
+        .yt-fallback-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .5rem;
+            padding: .6rem 1rem;
+            background: rgba(190, 33, 38, .06);
+            border-top: 1px solid rgba(190, 33, 38, .12);
+        }
+
+        .yt-fallback-bar small {
+            color: var(--p-sub);
+            font-size: .78rem;
+        }
+
+        .yt-watch-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            color: var(--p-accent);
+            font-weight: 600;
+            font-size: .82rem;
+            text-decoration: none;
+        }
+
+        .yt-watch-link:hover {
+            text-decoration: underline;
+            color: #a31418;
+        }
+
+        @media(max-width:767px) {
+            .section {
+                padding: 3.5rem 0;
+            }
+
+            .hero-dark {
+                padding: 6rem 0 4rem;
+                min-height: auto;
+            }
+
+            .download-banner {
+                padding: 2rem 1.25rem;
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark-glass sticky-top" id="top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#top">
+                <img src="logo/logo.png" alt="GTU" style="height: 75px; width: auto; object-fit: contain;">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <i class="bi bi-list" style="color:var(--p-sub);font-size:1.5rem;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto gap-1 align-items-lg-center mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#interactive-guide">Setup Guide</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#permissions">Permissions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#start-exam">How to Start Exam</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <a href="#download-seb" class="btn-nav-pill">Download SEB</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===================== HERO ===================== -->
+    <header class="hero-dark" id="hero">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 fade-up">
+                    <div class="hero-badge"><span class="live-dot"></span> Exam Portal Live — Students Only</div>
+                    <h1 class="mb-3">
+                        Safe Exam Browser<br>
+                        Setup Guide for<br>
+                        <span class="gradient-text">GTU Students</span>
+                    </h1>
+                    <p class="lead mb-4">Follow this step-by-step guide to install, configure and launch the Safe Exam
+                        Browser (SEB) — so your online examination runs smoothly from start to finish.</p>
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <a href="#interactive-guide" class="btn-cta-primary"><i class="bi bi-play-circle-fill"></i>
+                            Start Setup Guide</a>
+                        <button id="heroDownloadSEB" class="btn-cta-outline"><i
+                                class="bi bi-file-earmark-arrow-down"></i> Download .seb File</button>
+                    </div>
+                    <div class="d-flex align-items-center gap-2" style="color:var(--p-sub);font-size:.88rem;">
+                        <i class="bi bi-headset text-accent"></i>
+                        <span>Need help? Call: <strong style="color:var(--p-text);">Phone: 079-23267623 / 586
+                                &nbsp;|&nbsp; Mobile: +91 9909944890 &nbsp;|&nbsp; Email: onlineexam@gtu.edu.in</strong></span>
+                    </div>
+                </div>
+                <div class="col-lg-5 fade-up">
+                    <div class="glass-card p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-box orange"><i class="bi bi-clipboard-check"></i></div>
+                            <div>
+                                <div style="font-family:'Outfit',sans-serif;font-weight:700;">Quick Setup Checklist
+                                </div>
+                                <div style="color:var(--p-sub);font-size:.83rem;">Complete before exam day</div>
+                            </div>
+                        </div>
+                        <div class="checklist-row">
+                            <div class="check-icon"><i class="bi bi-check"></i></div><span
+                                style="font-size:.93rem;">Install Safe Exam Browser (Windows / macOS)</span>
+                        </div>
+                        <div class="checklist-row">
+                            <div class="check-icon"><i class="bi bi-check"></i></div><span
+                                style="font-size:.93rem;">Allow Camera &amp; Microphone in System Settings</span>
+                        </div>
+                        <div class="checklist-row">
+                            <div class="check-icon"><i class="bi bi-check"></i></div><span
+                                style="font-size:.93rem;">Close all background &amp; remote access apps</span>
+                        </div>
+                        <div class="checklist-row">
+                            <div class="check-icon"><i class="bi bi-check"></i></div><span
+                                style="font-size:.93rem;">Download the GTU exam config (.seb) file</span>
+                        </div>
+                        <div class="checklist-row">
+                            <div class="check-icon"><i class="bi bi-check"></i></div><span
+                                style="font-size:.93rem;">Plug in charger and ensure stable internet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================== PLATFORMS ===================== -->
+    <section class="section" id="platforms">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Compatibility</div>
+                <h2 class="section-title">Supported Platforms</h2>
+                <p class="section-sub mx-auto">Safe Exam Browser runs on desktop computers only — not phones or tablets.
+                </p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 fade-up">
+                    <div class="dark-card">
+                        <div class="icon-box mb-3"><i class="bi bi-windows"></i></div>
+                        <h5>Windows 10 / 11</h5>
+                        <p class="text-sub mb-3">Fully supported on 64-bit Windows versions.</p>
+                        <ul class="text-sub mb-3 ps-4">
+                            <li>Windows 10 (64-bit) — version 1903 or later</li>
+                            <li>Windows 11 (64-bit) — all released versions</li>
+                        </ul>
+                        <span class="platform-badge">✓ Recommended: Windows 11</span>
+                    </div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="dark-card">
+                        <div class="icon-box orange mb-3"><i class="bi bi-apple"></i></div>
+                        <h5>macOS</h5>
+                        <p class="text-sub mb-3">Compatible with recent macOS releases.</p>
+                        <ul class="text-sub mb-3 ps-4">
+                            <li>macOS 11 (Big Sur), 12 (Monterey), 13 (Ventura)</li>
+                            <li>macOS 14 (Sonoma), 15 (Sequoia), 26</li>
+                        </ul>
+                        <span class="platform-badge">✓ Recommended: Latest macOS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SYSTEM & NETWORK REQUIREMENTS ===================== -->
+    <section class="section" id="hardware-specifications"
+        style="background: var(--p-card); border-top: 1px solid var(--p-border); border-bottom: 1px solid var(--p-border);">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">System Check</div>
+                <h2 class="section-title">System &amp; Network Requirements</h2>
+                <p class="section-sub mx-auto">Please ensure your computer and internet connection meet the
+                    specifications below before initiating the exam.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <!-- Left: Hardware Specifications -->
+                <div class="col-lg-6 fade-up">
+                    <h5 class="fw-bold mb-3" style="font-family:'Outfit',sans-serif; color: var(--p-text);"><i
+                            class="bi bi-laptop" style="color:var(--p-primary);"></i> 1. Hardware Specifications</h5>
+                    <div class="table-responsive shadow-sm"
+                        style="border-radius: var(--radius); overflow: hidden; border: 1.5px solid var(--p-border);">
+                        <table class="table table-hover align-middle mb-0" style="background: #ffffff;">
+                            <thead
+                                style="background: linear-gradient(95deg, var(--p-primary) 0%, var(--p-accent2, #e42f2e) 100%); color: #ffffff;">
+                                <tr>
+                                    <th scope="col" class="py-3.5 px-4"
+                                        style="width: 35%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; border: none; letter-spacing: -0.01em;">
+                                        Component</th>
+                                    <th scope="col" class="py-3.5 px-4"
+                                        style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; border: none; letter-spacing: -0.01em;">
+                                        Minimum Requirement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-cpu"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Processor (CPU)</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Dual-core processor or better</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-device-ssd"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>RAM</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">At least <strong>4 GB</strong> (8 GB
+                                        recommended for smooth performance)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-hdd"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Free Disk Space</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">At least <strong>350MB</strong> free storage
+                                        for installation (1 GB recommended)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-display"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Display</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Single monitor / single active display only
+                                        <span class="text-danger fw-semibold">(multi-monitor setups are not allowed by
+                                            SEB)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-webcam"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Webcam</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Working internal or external USB webcam
+                                        required</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-mic"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Microphone</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">
+                                        Working internal or external microphone.<br>
+                                        <small class="text-danger fw-semibold"><i
+                                                class="bi bi-exclamation-triangle-fill me-1"></i> Students are not
+                                            allowed to wear any headphones, earphones, earbuds, or headsets while taking
+                                            the examination.</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-keyboard"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Keyboard &amp; Mouse</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Standard physical keyboard and Mouse / Trackpad
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-lightning-charge"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Power</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Laptop should stay connected to a power source
+                                        during the exam to avoid shutdown</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right: Network Specifications & Speed Test -->
+                <div class="col-lg-6 fade-up">
+                    <h5 class="fw-bold mb-3" style="font-family:'Outfit',sans-serif; color: var(--p-text);"><i
+                            class="bi bi-globe" style="color:var(--p-primary);"></i> 2. Network &amp; Internet
+                        Requirements</h5>
+                    <div class="table-responsive shadow-sm mb-4"
+                        style="border-radius: var(--radius); overflow: hidden; border: 1.5px solid var(--p-border);">
+                        <table class="table table-hover align-middle mb-0" style="background: #ffffff;">
+                            <thead
+                                style="background: linear-gradient(95deg, var(--p-primary) 0%, var(--p-accent2, #e42f2e) 100%); color: #ffffff;">
+                                <tr>
+                                    <th scope="col" class="py-3.5 px-4"
+                                        style="width: 35%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; border: none; letter-spacing: -0.01em;">
+                                        Requirement</th>
+                                    <th scope="col" class="py-3.5 px-4"
+                                        style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; border: none; letter-spacing: -0.01em;">
+                                        Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-wifi"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Internet Connection</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Stable broadband / Wi-Fi connection (wired
+                                        connection preferred where possible)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-router"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Wi-Fi Frequency</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Recommended to use <strong>5 GHz</strong> Wi-Fi
+                                        network for faster speeds and a more stable connection</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-speedometer2"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Bandwidth</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">A stable connection speed of <strong>20
+                                            Mbps</strong> is required. <strong>30 Mbps</strong> or higher is
+                                        recommended.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 fw-semibold text-dark"
+                                        style="background: rgba(190, 33, 38, 0.015);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-phone-vibrate"
+                                                style="color: var(--p-primary); font-size: 1.2rem;"></i>
+                                            <span>Backup Option</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-secondary">Keep a mobile hotspot ready as backup
+                                        connectivity in case main Wi-Fi fails</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Interactive Speed Test Widget -->
+                    <div class="card p-4 border-0 shadow-sm"
+                        style="background: #ffffff; border: 1.5px solid var(--p-border) !important; border-radius: var(--radius);">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i class="bi bi-speedometer" style="color: var(--p-primary); font-size: 1.4rem;"></i>
+                            <h5 class="mb-0" style="font-family:'Outfit',sans-serif; font-weight: 700;">Connection Speed
+                                Test</h5>
+                        </div>
+                        <p class="small text-muted mb-4">Click below to test your current internet speed and verify if
+                            it meets the minimum 20 Mbps requirement.</p>
+
+                        <div class="text-center my-4">
+                            <!-- Gauge Visual Display -->
+                            <div class="d-inline-flex flex-column align-items-center justify-content-center position-relative"
+                                style="width: 140px; height: 140px; border-radius: 50%; border: 6px solid #e9ecef; background: #fafafa; transition: border-color 0.5s ease;"
+                                id="speedGauge">
+                                <div id="speedTestingSpinner" class="spinner-border text-danger position-absolute"
+                                    role="status"
+                                    style="width: 120px; height: 120px; border-width: 3px; display: none;">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="small text-muted mb-0" id="speedLabel"
+                                    style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;">Download</span>
+                                <h2 class="mb-0 fw-bold" id="speedResult"
+                                    style="color: var(--p-text); font-family: 'Outfit', sans-serif;">--</h2>
+                                <span class="small text-muted" id="speedUnit"
+                                    style="font-size: 0.8rem; font-weight: 500;">Mbps</span>
+                            </div>
+                        </div>
+
+                        <!-- Results Badge and Message -->
+                        <div class="text-center mb-4" id="speedStatusWrapper" style="display: none;">
+                            <span class="badge py-1.5 px-3 mb-2" id="speedStatusBadge"
+                                style="font-size: 0.82rem; font-weight: 600;">Passed (Minimum)</span>
+                            <p class="small mb-0 text-secondary" id="speedStatusText">Your internet speed is sufficient
+                                for the examination.</p>
+                        </div>
+
+                        <!-- Progress Bar (while testing) -->
+                        <div class="progress mb-4" style="height: 6px; display: none;" id="speedProgressBarWrapper">
+                            <div id="speedProgressBar"
+                                class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                role="progressbar" style="width: 0%"></div>
+                        </div>
+
+                        <!-- Test Button -->
+                        <button class="btn btn-cta-primary w-100" id="btnRunSpeedTest">
+                            <i class="bi bi-play-circle me-1"></i> Start Speed Test
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== INTERACTIVE GUIDE ===================== -->
+    <section class="section" style="background:linear-gradient(180deg,#fffafb 0%,#fff0f1 100%);" id="interactive-guide">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Interactive Guide</div>
+                <h2 class="section-title">Setup in 4 Easy Steps</h2>
+                <p class="section-sub mx-auto">Click any step below to watch the tutorial video and read the written
+                    instructions. Each step has its own dedicated video.</p>
+            </div>
+
+            <!-- STEP TABS -->
+            <div class="step-tabs justify-content-center fade-up" id="stepTabs">
+                <div class="step-tab active" data-target="step1"><span class="tab-num">1</span> Download SEB</div>
+                <div class="step-tab" data-target="step2"><span class="tab-num">2</span> Allow Permissions</div>
+                <div class="step-tab" data-target="step3"><span class="tab-num">3</span> Download Config</div>
+                <div class="step-tab" data-target="step4"><span class="tab-num">4</span> Launch Exam</div>
+            </div>
+
+            <!-- STEP 1 -->
+            <div class="step-video-panel active" id="step1">
+                <div class="row g-4 align-items-start">
+                    <div class="col-lg-7">
+                        <div class="video-shell">
+                            <div class="video-topbar">
+                                <div class="dot-btn" style="background:#EF4444;"></div>
+                                <div class="dot-btn" style="background:#F59E0B;"></div>
+                                <div class="dot-btn" style="background:#22C55E;"></div>
+                                <span style="color:var(--p-sub);font-size:.8rem;margin-left:.5rem;">Step 1 — Download
+                                    SEB Installer</span>
+                            </div>
+                            <!-- YT LITE PLAYER: Step 1 -->
+                            <div class="yt-player" id="yt-step1" data-vid="0Y1EnhVVPGo"
+                                data-label="Step 1: Download Safe Exam Browser">
+                                <div class="yt-thumb" onclick="ytLoad('yt-step1')" role="button" tabindex="0"
+                                    aria-label="Play Step 1 video">
+                                    <img src="logo/how-to-dowanload.png" alt="Step 1 Tutorial" loading="lazy"
+                                        onerror="this.src='https://img.youtube.com/vi/0Y1EnhVVPGo/mqdefault.jpg'">
+                                    <span class="yt-play-btn"><i class="bi bi-play-fill"></i></span>
+                                </div>
+                                <div class="yt-iframe-wrap" id="yt-frame-yt-step1"></div>
+                                <div class="yt-error-card" id="yt-err-yt-step1">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    <strong>Video cannot be embedded here</strong>
+                                    <p>This video is restricted from loading inside this page.</p>
+                                    <a href="https://www.youtube.com/watch?v=0Y1EnhVVPGo" target="_blank" rel="noopener"
+                                        class="action-btn"><i class="bi bi-youtube"></i> Watch on YouTube</a>
+                                </div>
+                                <div class="yt-fallback-bar">
+                                    <small>Video not loading? Try the YouTube link →</small>
+                                    <a href="https://www.youtube.com/watch?v=0Y1EnhVVPGo" target="_blank" rel="noopener"
+                                        class="yt-watch-link"><i class="bi bi-youtube"></i> Watch on YouTube</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="step-instructions">
+                            <div class="step-num-badge">1</div>
+                            <h4 class="mb-1">Download SEB Installer</h4>
+                            <p class="text-sub mb-4" style="font-size:.9rem;">Download the official Safe Exam Browser
+                                installer for your operating system. Do <strong style="color:var(--p-red);">NOT</strong>
+                                install on mobile devices or tablets.</p>
+                            <ul class="instruction-list">
+                                <li><span class="li-num">1</span><span>Open your browser and go to
+                                        <strong><a href="https://safeexambrowser.org/download_en.html" target="_blank"
+                                                style="color: var(--p-primary); text-decoration: underline;">safeexambrowser.org</a></strong>,
+                                        or click the <strong>Windows / macOS</strong> buttons below for a direct
+                                        download.</span></li>
+                                <li><span class="li-num">2</span><span>Click <strong>Download</strong> and choose
+                                        <strong>Windows</strong> or <strong>macOS</strong> installer (approx 335
+                                        MB).</span></li>
+                                <li><span class="li-num">3</span><span>Once the download finishes, double-click the
+                                        downloaded <strong>.exe</strong> or <strong>.dmg</strong> file to start the
+                                        installer.</span></li>
+                                <li><span class="li-num">4</span><span>If Windows shows a "User Account Control" pop-up
+                                        or macOS prompts for permission, click <strong>Yes</strong> /
+                                        <strong>Allow</strong> to let the installer run.</span></li>
+                                <li><span class="li-num">5</span><span>Follow the on-screen setup wizard: accept the
+                                        license agreement and click <strong>Install</strong>, then
+                                        <strong>Finish</strong> once complete.</span></li>
+                                <li><span class="li-num">6</span><span>Whitelist <strong>SafeExamBrowser.exe</strong> in
+                                        your antivirus software so it is not blocked or quarantined.</span></li>
+                            </ul>
+                            <div class="d-flex flex-wrap gap-2 mt-4">
+                                <button class="action-btn" data-download-app="Windows"
+                                    data-download-url="https://github.com/SafeExamBrowser/seb-win-refactoring/releases/download/v3.10.1/SEB_3.10.1.864_SetupBundle.exe"><i
+                                        class="bi bi-windows"></i> Windows</button>
+                                <button class="action-btn" data-download-app="macOS"
+                                    data-download-url="https://github.com/SafeExamBrowser/seb-mac/releases/download/3.6.1/SafeExamBrowser-3.6.1.dmg"><i
+                                        class="bi bi-apple"></i> macOS</button>
+                                <button class="btn-cta-primary px-3 py-2 small ms-md-auto"
+                                    onclick="document.querySelector('.step-tab[data-target=\'step2\']').click(); document.getElementById('interactive-guide').scrollIntoView({ behavior: 'smooth' });"><i
+                                        class="bi bi-arrow-right-short"></i> Next Step</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-video-panel" id="step2">
+                <div class="row g-4 align-items-start">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="step-instructions">
+                            <div class="step-num-badge">2</div>
+                            <h4 class="mb-1">Allow Device Permissions</h4>
+                            <p class="text-sub mb-4" style="font-size:.9rem;">SEB requires camera and microphone access
+                                for proctoring. Enable them at the OS level <strong>before</strong> exam day.</p>
+                            <ul class="instruction-list">
+                                <li><span class="li-num">1</span><span><strong>Windows:</strong> Settings → Privacy
+                                        &amp; Security → Camera → Enable</span></li>
+                                <li><span class="li-num">2</span><span><strong>Windows:</strong> Settings → Privacy
+                                        &amp; Security → Microphone → Enable</span></li>
+                                <li><span class="li-num">3</span><span><strong>macOS:</strong> System Settings → Privacy
+                                        → Camera → Allow SEB</span></li>
+                                <li><span class="li-num">4</span><span><strong>macOS:</strong> Also enable Microphone,
+                                        Screen Recording &amp; Accessibility</span></li>
+                                <li><span class="li-num">5</span><span>When SEB launches, click <strong>Allow</strong>
+                                        on all permission prompts</span></li>
+                            </ul>
+                            <!-- Interactive Camera/Mic Test Button and Feedback -->
+                            <div class="mt-4 p-3 rounded"
+                                style="background:rgba(190,33,38,0.04); border:1px dashed rgba(190,33,38,0.22);">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="small fw-bold" style="color:var(--p-primary);"><i
+                                            class="bi bi-shield-check"></i> System Test</span>
+                                    <span id="test-status" class="badge bg-secondary">Not Started</span>
+                                </div>
+                                <p class="small text-sub mb-3">Click below to check if your browser allows webcam and
+                                    microphone access correctly.</p>
+                                <div class="d-flex gap-2">
+                                    <button class="action-btn w-100 justify-content-center" id="btn-run-sys-test"><i
+                                            class="bi bi-play-circle"></i> Test Camera &amp; Mic</button>
+                                </div>
+                                <div id="test-feedback-box" class="mt-2 small" style="display:none; line-height:1.5;">
+                                    <div id="test-cam-res" class="mb-1"><i class="bi bi-hourglass-split"></i> Testing
+                                        Camera...</div>
+                                    <div id="test-mic-res"><i class="bi bi-hourglass-split"></i> Testing Microphone...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+                                <a href="#windows-permissions" class="btn-cta-outline px-3 py-2 small"
+                                    style="font-size:.8rem;"><i class="bi bi-windows"></i> Windows Guide</a>
+                                <a href="#macos-permissions" class="btn-cta-outline px-3 py-2 small"
+                                    style="font-size:.8rem;"><i class="bi bi-apple"></i> macOS Guide</a>
+                                <button class="btn-cta-primary px-3 py-2 small ms-md-auto"
+                                    onclick="document.querySelector('.step-tab[data-target=\'step3\']').click(); document.getElementById('interactive-guide').scrollIntoView({ behavior: 'smooth' });"><i
+                                        class="bi bi-arrow-right-short"></i> Next Step</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step-video-panel" id="step3">
+                <div class="row g-4 align-items-start">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="step-instructions">
+                            <div class="step-num-badge">3</div>
+                            <h4 class="mb-1">Download Config File</h4>
+                            <p class="text-sub mb-4" style="font-size:.9rem;">Download your unique <code
+                                    style="background:rgba(255,255,255,.1);padding:.1rem .4rem;border-radius:.3rem;">.seb</code>
+                                configuration file. It locks SEB into exam mode and connects to GTU servers.</p>
+                            <ul class="instruction-list">
+                                <li><span class="li-num">1</span><span>Click the <strong>Download Config</strong> button
+                                        below</span></li>
+                                <li><span class="li-num">2</span><span>Save <code
+                                            style="background:rgba(255,255,255,.1);padding:.1rem .3rem;border-radius:.3rem;">GTU-Online-MBA-IB-W25.seb</code>
+                                        to your Desktop</span></li>
+                                <li><span class="li-num">3</span><span>Do <strong
+                                            style="color:var(--p-red);">NOT</strong> rename or edit this file</span>
+                                </li>
+                                <li><span class="li-num">4</span><span>Keep it accessible for exam day</span></li>
+                            </ul>
+                            <div class="d-flex flex-wrap gap-2 mt-4 align-items-center">
+                                <button class="action-btn" id="dlConfigStep3"><i class="bi bi-file-earmark-lock2"></i>
+                                    Download Config (.seb)</button>
+                                <button class="btn-cta-primary px-3 py-2 small ms-md-auto"
+                                    onclick="document.querySelector('.step-tab[data-target=\'step4\']').click(); document.getElementById('interactive-guide').scrollIntoView({ behavior: 'smooth' });"><i
+                                        class="bi bi-arrow-right-short"></i> Next Step</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="step-video-panel" id="step4">
+                <div class="row g-4 align-items-start">
+                    <div class="col-lg-7">
+                        <div class="video-shell">
+                            <div class="video-topbar">
+                                <div class="dot-btn" style="background:#EF4444;"></div>
+                                <div class="dot-btn" style="background:#F59E0B;"></div>
+                                <div class="dot-btn" style="background:#22C55E;"></div>
+                                <span style="color:var(--p-sub);font-size:.8rem;margin-left:.5rem;">Step 4 — Launch
+                                    Exam</span>
+                            </div>
+                            <!-- YT LITE PLAYER: Step 4 -->
+                            <div class="yt-player" id="yt-step4" data-vid="g4m39f7-Q1Q"
+                                data-label="Step 4: Launch Exam">
+                                <div class="yt-thumb" onclick="ytLoad('yt-step4')" role="button" tabindex="0"
+                                    aria-label="Play Step 4 video">
+                                    <img src="https://img.youtube.com/vi/g4m39f7-Q1Q/hqdefault.jpg"
+                                        alt="Step 4 Tutorial" loading="lazy"
+                                        onerror="this.src='https://img.youtube.com/vi/g4m39f7-Q1Q/mqdefault.jpg'">
+                                    <span class="yt-play-btn"><i class="bi bi-play-fill"></i></span>
+                                </div>
+                                <div class="yt-iframe-wrap" id="yt-frame-yt-step4"></div>
+                                <div class="yt-error-card" id="yt-err-yt-step4">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    <strong>Video cannot be embedded here</strong>
+                                    <p>This video is restricted from loading inside this page.</p>
+                                    <a href="https://www.youtube.com/watch?v=g4m39f7-Q1Q" target="_blank" rel="noopener"
+                                        class="action-btn"><i class="bi bi-youtube"></i> Watch on YouTube</a>
+                                </div>
+                                <div class="yt-fallback-bar">
+                                    <small>Video not loading? Try the YouTube link →</small>
+                                    <a href="https://www.youtube.com/watch?v=g4m39f7-Q1Q" target="_blank" rel="noopener"
+                                        class="yt-watch-link"><i class="bi bi-youtube"></i> Watch on YouTube</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="step-instructions">
+                            <div class="step-num-badge">4</div>
+                            <h4 class="mb-1">Launch Your Exam</h4>
+                            <p class="text-sub mb-4" style="font-size:.9rem;">Double-click the .seb config file to
+                                launch SEB directly. Do <strong style="color:var(--p-red);">NOT</strong> open SEB
+                                manually first.</p>
+                            <ul class="instruction-list">
+                                <li><span class="li-num">1</span><span><strong>Clean Background:</strong> Fully quit
+                                        screen recorders (OBS, Bandicam) and remote desktop platforms (AnyDesk,
+                                        TeamViewer) to pass SEB security.</span></li>
+                                <li><span class="li-num">2</span><span><strong>Locate Configuration:</strong> Open your
+                                        Desktop or Downloads folder and select the downloaded file named
+                                        <code>GTU-Online-MBA-IB-W25.seb</code>. <button
+                                            class="btn btn-sm btn-outline-danger py-0 px-2 ms-1"
+                                            style="font-size: 0.75rem; vertical-align: middle;" id="dlConfigStep4"><i
+                                                class="bi bi-download"></i> Download</button></span></li>
+                                <li><span class="li-num">3</span><span><strong>Automatic Launch:</strong> Double-click
+                                        the <code>.seb</code> configuration file. Safe Exam Browser will open
+                                        automatically in secure full-screen mode.</span></li>
+                                <li><span class="li-num">4</span><span><strong>Allow Access:</strong> Click
+                                        <strong>Allow</strong> on the prompt asking for camera and microphone
+                                        permissions. (Crucial for online proctoring).</span></li>
+                                <li><span class="li-num">5</span><span><strong>Portal Login:</strong> Fill in your
+                                        student registration credentials (username and password) on the GTU
+                                        login screen.</span></li>
+                                <li><span class="li-num">6</span><span><strong>Start Exam Session:</strong> Click the
+                                        green <strong>Start Exam</strong> button in the portal to begin your monitored
+                                        examination.</span></li>
+                            </ul>
+                            <div class="mt-4">
+                                <a href="#start-exam" class="action-btn"><i class="bi bi-rocket-takeoff"></i> Exam Day
+                                    Checklist</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===================== DOWNLOAD SEB ===================== -->
+    <section class="section" style="background:var(--p-card);" id="download-seb">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Step 1</div>
+                <h2 class="section-title">Download Safe Exam Browser</h2>
+                <p class="section-sub mx-auto">Choose the correct installer for your operating system. Install on
+                    laptop/desktop only.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-5 fade-up">
+                    <div class="dark-card text-center">
+                        <div class="icon-box mx-auto mb-3"><i class="bi bi-windows"></i></div>
+                        <h5>SEB for Windows</h5>
+                        <p class="text-sub small mb-3">Latest: <strong style="color:var(--p-text);">v3.10.1</strong></p>
+                        <button class="btn-cta-primary w-100" data-download-app="Windows"
+                            data-download-url="https://github.com/SafeExamBrowser/seb-win-refactoring/releases/download/v3.10.1/SEB_3.10.1.864_SetupBundle.exe"><i
+                                class="bi bi-download"></i> Download for Windows</button>
+                    </div>
+                </div>
+                <div class="col-md-5 fade-up">
+                    <div class="dark-card text-center">
+                        <div class="icon-box orange mx-auto mb-3"><i class="bi bi-apple"></i></div>
+                        <h5>SEB for macOS</h5>
+                        <p class="text-sub small mb-3">Latest: <strong style="color:var(--p-text);">v3.6.1</strong></p>
+                        <button class="btn-cta-primary w-100" data-download-app="macOS"
+                            data-download-url="https://github.com/SafeExamBrowser/seb-mac/releases/download/3.6.1/SafeExamBrowser-3.6.1.dmg"><i
+                                class="bi bi-download"></i> Download for macOS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== CLOSE APPS ===================== -->
+    <section class="section" id="close-apps">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Important — Before Exam</div>
+                <h2 class="section-title">Close These Apps First</h2>
+                <p class="section-sub mx-auto">Remote access, screen recording, and VM software will block SEB from
+                    starting. Close all of the following before your exam.</p>
+            </div>
+            <div class="fade-up">
+                <div class="alert mb-4"
+                    style="background:rgba(239,68,68,.09); border:1px solid rgba(239,68,68,.28); border-radius:var(--radius-sm); color:var(--p-sub); padding: 1.25rem;">
+                    <div class="d-flex align-items-start gap-2 mb-3">
+                        <i class="bi bi-exclamation-triangle-fill"
+                            style="color:var(--p-red); font-size:1.4rem; line-height: 1;"></i>
+                        <div>
+                            <strong style="color:var(--p-text); font-size: 1.05rem;">Why this matters:</strong>
+                            <div class="mt-1">SEB automatically detects active background remote-access and
+                                screen-capture tools. If any are running, the exam will refuse to load.</div>
+                        </div>
+                    </div>
+                    <!-- Remote Access Troubleshooting -->
+                    <div class="p-4 rounded mt-3"
+                        style="background:rgba(190,33,38,0.03); border:1px solid rgba(190,33,38,0.12);">
+                        <strong style="color:var(--p-primary); font-size: 1rem;"><i class="bi bi-tools"></i>
+                            Troubleshooting: Remote Access Blocks (Chrome Remote Desktop &amp; AnyDesk)</strong>
+                        <p class="small text-muted mt-1 mb-3">If SEB detects active background remote-access tools (like
+                            AnyDesk or Chrome Remote Desktop), follow these steps to stop them:</p>
+
+                        <!-- Step 1 Instruction -->
+                        <div class="mb-3">
+                            <h6 style="color: var(--p-text); font-size: .9rem;" class="fw-semibold mb-2">Step 1: Open
+                                Command Prompt as Administrator</h6>
+                            <p class="small text-muted mb-0">Click the Windows Start menu, type <code>cmd</code>,
+                                right-click <strong>Command Prompt</strong>, and select <strong>Run as
+                                    administrator</strong>.</p>
+                        </div>
+
+                        <!-- 5.1 Chrome Remote Desktop -->
+                        <div class="mb-3">
+                            <h6 style="color: var(--p-primary); font-size: .85rem;" class="fw-semibold mb-2">5.1 Chrome
+                                Remote Desktop</h6>
+                            <div class="table-responsive"
+                                style="border: 1px solid var(--p-border); border-radius: var(--radius-sm);">
+                                <table class="table table-bordered table-hover align-middle mb-0"
+                                    style="font-size: .82rem; background: #ffffff;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 35%;">Action</th>
+                                            <th>Command (click copy icon)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-medium text-dark">1. Stop the background service</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between p-1.5 px-2 rounded"
+                                                    style="background: #1e1e1e; color: #a9b7c6; font-family: monospace;">
+                                                    <span>net stop "Chrome Remote Desktop Service"</span>
+                                                    <button class="btn btn-sm btn-dark py-0 px-1 border-0"
+                                                        onclick="navigator.clipboard.writeText('net stop \&quot;Chrome Remote Desktop Service\&quot;'); showToast('Command copied!', 'bi-clipboard-check')"
+                                                        title="Copy Command"><i class="bi bi-copy"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium text-dark">2. Force-close host process</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between p-1.5 px-2 rounded"
+                                                    style="background: #1e1e1e; color: #a9b7c6; font-family: monospace;">
+                                                    <span>taskkill /F /IM remoting_host.exe</span>
+                                                    <button class="btn btn-sm btn-dark py-0 px-1 border-0"
+                                                        onclick="navigator.clipboard.writeText('taskkill /F /IM remoting_host.exe'); showToast('Command copied!', 'bi-clipboard-check')"
+                                                        title="Copy Command"><i class="bi bi-copy"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 5.2 AnyDesk -->
+                        <div class="mb-3">
+                            <h6 style="color: var(--p-primary); font-size: .85rem;" class="fw-semibold mb-2">5.2 AnyDesk
+                            </h6>
+                            <div class="table-responsive"
+                                style="border: 1px solid var(--p-border); border-radius: var(--radius-sm);">
+                                <table class="table table-bordered table-hover align-middle mb-0"
+                                    style="font-size: .82rem; background: #ffffff;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 35%;">Action</th>
+                                            <th>Command (click copy icon)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-medium text-dark">1. Stop the AnyDesk background service</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between p-1.5 px-2 rounded"
+                                                    style="background: #1e1e1e; color: #a9b7c6; font-family: monospace;">
+                                                    <span>net stop "AnyDesk Service"</span>
+                                                    <button class="btn btn-sm btn-dark py-0 px-1 border-0"
+                                                        onclick="navigator.clipboard.writeText('net stop \&quot;AnyDesk Service\&quot;'); showToast('Command copied!', 'bi-clipboard-check')"
+                                                        title="Copy Command"><i class="bi bi-copy"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium text-dark">2. Force-close AnyDesk application</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between p-1.5 px-2 rounded"
+                                                    style="background: #1e1e1e; color: #a9b7c6; font-family: monospace;">
+                                                    <span>taskkill /F /IM AnyDesk.exe</span>
+                                                    <button class="btn btn-sm btn-dark py-0 px-1 border-0"
+                                                        onclick="navigator.clipboard.writeText('taskkill /F /IM AnyDesk.exe'); showToast('Command copied!', 'bi-clipboard-check')"
+                                                        title="Copy Command"><i class="bi bi-copy"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 Instruction -->
+                        <div class="mb-3">
+                            <h6 style="color: var(--p-text); font-size: .9rem;" class="fw-semibold mb-1">Step 2 (Both
+                                Tools): Confirm in Task Manager</h6>
+                            <p class="small text-muted mb-0">After running the commands, open <strong>Task
+                                    Manager</strong> (Ctrl+Shift+Esc) and confirm that no AnyDesk or Chrome Remote
+                                Desktop process is running under the <strong>Processes</strong> or
+                                <strong>Services</strong> tab. Only then launch SEB for the exam.
+                            </p>
+                        </div>
+
+                        <!-- Important Note -->
+                        <div class="p-3 rounded mt-3"
+                            style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); font-size: .82rem; color: var(--p-sub);">
+                            <span class="fw-semibold" style="color: var(--p-text);"><i class="bi bi-info-circle-fill"
+                                    style="color: #f59e0b;"></i> Important:</span> If a command returns "service not
+                            found", it simply means that particular service is not installed on your computer — this is
+                            normal and can be ignored. If a student uses any other remote-access tool (TeamViewer,
+                            UltraViewer, etc.), it must be closed the same way via Task Manager before starting SEB.
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-2">
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-display"></i><span>AnyDesk</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-display"></i><span>TeamViewer</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-display"></i><span>RustDesk</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-display"></i><span>Chrome Remote</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-pc-display"></i><span>Remote Desktop</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-record-circle"></i><span>OBS Studio</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-record-circle"></i><span>Bandicam</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-camera-video"></i><span>Zoom</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-camera-video"></i><span>Google Meet</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-camera-video"></i><span>MS Teams</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-chat-dots"></i><span>Discord</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-hdd-stack"></i><span>VirtualBox</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-hdd-stack"></i><span>VMware</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-phone"></i><span>BlueStacks</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-controller"></i><span>Steam</span></div>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="app-chip"><i class="bi bi-clipboard"></i><span>Clipboard Mgr</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PERMISSIONS ===================== -->
+    <section class="section" style="background:var(--p-card);" id="permissions">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Step 2</div>
+                <h2 class="section-title">Camera, Microphone &amp; Browser Permissions</h2>
+                <p class="section-sub mx-auto">SEB needs these permissions to proctor your exam session. Enable them
+                    before launching your exam.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 fade-up">
+                    <div class="permission-card">
+                        <div class="icon-box mb-3"><i class="bi bi-camera-video"></i></div>
+                        <h5>Camera Access</h5>
+                        <ul class="text-sub ps-3 mt-3">
+                            <li class="mb-2">Open SEB and click <strong style="color:var(--p-text);">Allow</strong> when
+                                prompted</li>
+                            <li class="mb-2">Allow microphone access as well</li>
+                            <li class="mb-2">Never click <strong style="color:var(--p-red);">Block</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-up">
+                    <div class="permission-card">
+                        <div class="icon-box orange mb-3"><i class="bi bi-mic"></i></div>
+                        <h5>Microphone Access</h5>
+                        <ul class="text-sub ps-3 mt-3">
+                            <li class="mb-2">Click <strong style="color:var(--p-text);">Allow</strong> when SEB requests
+                                mic access</li>
+                            <li class="mb-2">Speak briefly to confirm input level moves</li>
+                            <li class="mb-2">Unmute from system settings if muted</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 fade-up">
+                    <div class="permission-card">
+                        <div class="icon-box green mb-3"><i class="bi bi-window-stack"></i></div>
+                        <h5>Browser Permissions</h5>
+                        <ul class="text-sub ps-3 mt-3">
+                            <li class="mb-2">SEB uses its own built-in browser — no extra setup needed</li>
+                            <li class="mb-2">Allow camera &amp; mic if prompted inside SEB's browser</li>
+                            <li class="mb-2">Clear cache if permission prompt doesn't appear</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standalone System Test Section -->
+            <div class="row justify-content-center mt-5 fade-up">
+                <div class="col-lg-8">
+                    <div class="p-4 rounded text-center"
+                        style="background:#fff; border:1px dashed rgba(190,33,38,0.22); box-shadow: 0 10px 30px rgba(190,33,38,0.03);">
+                        <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                            <h5 class="mb-0" style="color:var(--p-primary);"><i class="bi bi-shield-check"></i> Live
+                                Permission Test Tool</h5>
+                            <span id="sec-test-status" class="badge bg-secondary">Not Started</span>
+                        </div>
+                        <p class="text-sub small mx-auto mb-4" style="max-width: 500px;">Click the button below to test
+                            if your webcam and microphone hardware are connected and approved in this browser.</p>
+
+                        <button class="btn-cta-primary px-4 py-2" id="sec-btn-run-sys-test"><i
+                                class="bi bi-play-circle-fill"></i> Run Live Hardware Test</button>
+
+                        <div id="sec-test-feedback-box" class="mt-4 p-3 rounded text-start mx-auto"
+                            style="display:none; max-width: 460px; background: rgba(190,33,38,0.03); border: 1px solid rgba(190,33,38,0.08); font-size: .9rem; line-height: 1.6;">
+                            <div id="sec-test-cam-res" class="mb-2"><i class="bi bi-hourglass-split text-warning"></i>
+                                Testing Camera...</div>
+                            <div id="sec-test-mic-res"><i class="bi bi-hourglass-split text-warning"></i> Testing
+                                Microphone...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== WINDOWS PERMISSIONS ===================== -->
+    <section class="section" id="windows-permissions">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 fade-up">
+                    <div class="eyebrow">Windows</div>
+                    <h2 class="section-title">Windows Permission Guide</h2>
+                    <p class="section-sub mb-4">Enable camera and microphone at the OS level so SEB can use them.</p>
+                    <ol style="color:var(--p-sub);padding-left:1.5rem;line-height:2.2;">
+                        <li>Open <strong style="color:var(--p-text);">Settings</strong></li>
+                        <li>Go to <strong style="color:var(--p-text);">Privacy &amp; Security</strong></li>
+                        <li>Click <strong style="color:var(--p-text);">Camera</strong> → toggle <strong
+                                style="color:var(--p-text);">Camera Access</strong> ON</li>
+                        <li>Click <strong style="color:var(--p-text);">Microphone</strong> → toggle <strong
+                                style="color:var(--p-text);">Microphone Access</strong> ON</li>
+                        <li>Ensure "Let apps access your camera/microphone" is enabled</li>
+                    </ol>
+                </div>
+                <div class="col-lg-6 fade-up">
+                    <div class="permission-card">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-box"><i class="bi bi-windows"></i></div>
+                            <h5 class="mb-0">Windows Privacy Path</h5>
+                        </div>
+                        <div class="breadcrumb-path">
+                            <span class="bc-step">Settings</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Privacy &amp; Security</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Camera</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Microphone</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Enable Access</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== macOS PERMISSIONS ===================== -->
+    <section class="section" style="background:var(--p-card);" id="macos-permissions">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 order-lg-2 fade-up">
+                    <div class="eyebrow">macOS</div>
+                    <h2 class="section-title">macOS Permission Guide</h2>
+                    <p class="section-sub mb-4">macOS requires explicit permission grants for camera, microphone, screen
+                        recording and accessibility.</p>
+                    <ol style="color:var(--p-sub);padding-left:1.5rem;line-height:2.2;">
+                        <li>Open <strong style="color:var(--p-text);">System Settings</strong></li>
+                        <li>Go to <strong style="color:var(--p-text);">Privacy &amp; Security</strong></li>
+                        <li>Enable <strong style="color:var(--p-text);">Camera</strong> for Safe Exam Browser</li>
+                        <li>Enable <strong style="color:var(--p-text);">Microphone</strong> for Safe Exam Browser</li>
+                        <li>Enable <strong style="color:var(--p-text);">Screen Recording</strong> for Safe Exam Browser
+                        </li>
+                        <li>Enable <strong style="color:var(--p-text);">Accessibility</strong> for Safe Exam Browser
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-6 order-lg-1 fade-up">
+                    <div class="permission-card">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="icon-box orange"><i class="bi bi-apple"></i></div>
+                            <h5 class="mb-0">macOS Privacy Path</h5>
+                        </div>
+                        <div class="breadcrumb-path">
+                            <span class="bc-step">System Settings</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Privacy &amp; Security</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Camera</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Microphone</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Screen Recording</span><span class="bc-arrow"><i
+                                    class="bi bi-chevron-right"></i></span>
+                            <span class="bc-step">Accessibility</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== DOWNLOAD CONFIG ===================== -->
+    <section class="section" id="exam-config">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 fade-up">
+                    <div class="download-banner">
+                        <div class="icon-box mx-auto mb-3"
+                            style="width:72px;height:72px;font-size:2rem;background:rgba(249,115,22,.14);color:var(--p-accent);border-radius:1rem;">
+                            <i class="bi bi-file-earmark-lock2"></i>
+                        </div>
+                        <h2 class="section-title mb-2">Download Exam Configuration</h2>
+                        <p class="section-sub mx-auto mb-4" style="position:relative;">This <code
+                                style="background:rgba(255,255,255,.1);padding:.15rem .5rem;border-radius:.3rem;">.seb</code>
+                            file locks your browser into exam mode and connects you directly to your GTU exam
+                            session.</p>
+                        <button class="btn-cta-primary" id="downloadSebConfigMain" style="position:relative;"><i
+                                class="bi bi-download"></i> Download GTU-Online-MBA-IB-W25.seb</button>
+                        <div class="alert mt-4 text-start d-flex gap-2 mb-0"
+                            style="background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.28);border-radius:var(--radius-sm);position:relative;">
+                            <i class="bi bi-info-circle-fill"
+                                style="color:var(--p-primary);font-size:1.1rem;flex-shrink:0;"></i>
+                            <div style="color:var(--p-sub);font-size:.9rem;">Once downloaded, <strong
+                                    style="color:var(--p-text);">double-click this file</strong> to launch Safe Exam
+                                Browser directly into your exam. Do not open SEB manually first.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== HOW TO START EXAM ===================== -->
+    <section class="section" style="background:var(--p-card);" id="start-exam">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">Exam Day</div>
+                <h2 class="section-title">How to Start Your Exam</h2>
+                <p class="section-sub mx-auto">Follow these exact steps on the day of your exam, in order. Do not skip
+                    any step.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-7 fade-up">
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">1</div>
+                            <div class="exam-step-line"></div>
+                        </div>
+                        <div class="exam-step-card">
+                            <h6>Download the .seb file</h6>
+                            <p>Click the "Download GTU-Online-MBA-IB-W25.seb" button on this page and save it to your
+                                desktop.</p>
+                        </div>
+                    </div>
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">2</div>
+                            <div class="exam-step-line"></div>
+                        </div>
+                        <div class="exam-step-card">
+                            <h6>Double-click the .seb file</h6>
+                            <p>Locate <code
+                                    style="background:rgba(255,255,255,.1);padding:.1rem .4rem;border-radius:.3rem;">GTU-Online-MBA-IB-W25.seb</code>
+                                in Downloads/Desktop and double-click it. Do NOT open SEB manually.</p>
+                        </div>
+                    </div>
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">3</div>
+                            <div class="exam-step-line"></div>
+                        </div>
+                        <div class="exam-step-card">
+                            <h6>SEB Opens Automatically</h6>
+                            <p>Safe Exam Browser launches in full-screen mode and loads your exam portal directly.</p>
+                        </div>
+                    </div>
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">4</div>
+                            <div class="exam-step-line"></div>
+                        </div>
+                        <div class="exam-step-card">
+                            <h6>Login with Credentials</h6>
+                            <p>Enter your GTU username (roll number) and password to authenticate.</p>
+                        </div>
+                    </div>
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">5</div>
+                            <div class="exam-step-line"></div>
+                        </div>
+                        <div class="exam-step-card">
+                            <h6>Allow Camera Permission</h6>
+                            <p>When prompted, click <strong style="color:var(--p-text);">Allow</strong> to grant camera
+                                access. Do not click Block.</p>
+                        </div>
+                    </div>
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">6</div>
+                            <div class="exam-step-line"></div>
+                        </div>
+                        <div class="exam-step-card">
+                            <h6>Allow Microphone Permission</h6>
+                            <p>Also allow microphone access when SEB asks. Both camera and mic are required.</p>
+                        </div>
+                    </div>
+                    <div class="exam-step">
+                        <div class="exam-step-left">
+                            <div class="exam-step-num">7</div>
+                        </div>
+                        <div class="exam-step-card" style="border-color:rgba(34,197,94,.38);">
+                            <h6 style="color:var(--p-green);">🎯 Start Exam!</h6>
+                            <p>Click the <strong style="color:var(--p-text);">Start Exam</strong> button on the portal.
+                                Good luck!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== RULES ===================== -->
+    <section class="section" id="rules">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">During the Exam</div>
+                <h2 class="section-title">Important Rules</h2>
+                <p class="section-sub mx-auto">Violating any of these rules may end your exam session automatically.</p>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6 fade-up">
+                    <div class="rule-pill"><i class="bi bi-x-octagon-fill"></i><span>Do not minimize the Safe Exam
+                            Browser window</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-pill"><i class="bi bi-x-octagon-fill"></i><span>Do not close Safe Exam Browser
+                            during the exam</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-pill"><i class="bi bi-x-octagon-fill"></i><span>Do not disconnect your internet
+                            connection</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-pill"><i class="bi bi-x-octagon-fill"></i><span>Do not use an additional or
+                            external monitor</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-pill"><i class="bi bi-x-octagon-fill"></i><span>Do not connect a mobile device to
+                            your computer</span></div>
+                </div>
+                <div class="col-md-6 fade-up">
+                    <div class="rule-pill"><i class="bi bi-x-octagon-fill"></i><span>Do not open any other application
+                            or browser window</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== LIVE CHECKLIST ===================== -->
+    <section class="section" style="background:var(--p-card);" id="live-checklist">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7 fade-up">
+                    <div class="text-center mb-4">
+                        <div class="eyebrow">Interactive</div>
+                        <h2 class="section-title">Setup Readiness Checklist</h2>
+                        <p class="section-sub mx-auto">Tick each item as you complete it. Track your readiness before
+                            exam day.</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span style="font-weight:600;">Your Readiness</span>
+                        <span style="font-weight:700;color:var(--p-green);" id="clPercLabel">0%</span>
+                    </div>
+                    <div class="progress-dark mb-4">
+                        <div class="progress-fill" id="clProgressFill" style="width:0%;"></div>
+                    </div>
+                    <div class="cl-widget" id="clContainer"><!-- JS renders items --></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="text-center mb-5 fade-up">
+                <div class="eyebrow">FAQ</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-sub mx-auto">Answers to the most common questions students ask before exam day.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 fade-up" id="faqList"><!-- JS renders FAQs --></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SUPPORT ===================== -->
+    <div class="support-strip">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-box orange" style="width:44px;height:44px;font-size:1.2rem;border-radius:10px;"><i
+                            class="bi bi-headset"></i></div>
+                    <div>
+                        <div style="font-weight:600;">Still facing issues?</div>
+                        <div style="color:var(--p-sub);font-size:.88rem;">Our support team is available 24/7 before and
+                            during exam windows.</div>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="tel:07923267623" class="action-btn"><i class="bi bi-telephone"></i> Phone: 079-23267623 /
+                        586</a>
+                    <a href="tel:+919909944890" class="action-btn"><i class="bi bi-phone"></i> Mobile: +91
+                        9909944890</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Column 1: Brand & Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-logo mb-3">
+                        <img src="logo/logo.png" alt="GTU" style="height: 45px; width: auto; object-fit: contain;">
+                    </div>
+                    <p class="mb-4" style="line-height: 1.6; color: #a0a0ad;">
+                        The official student exam portal. Use the SEB configuration and guides to ensure your
+                        environment is secure and ready, for examination.
+                    </p>
+                    <div class="footer-info-item">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span><a href="mailto:onlineexam@gtu.edu.in" style="color: inherit; text-decoration: none;">onlineexam@gtu.edu.in</a></span>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="bi bi-clock-fill"></i>
+                        <span>Support: Mon - Fri, 8 AM - 6 PM</span>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation -->
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="footer-heading">Portal Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#interactive-guide" class="footer-link">Setup Guide</a></li>
+                        <li><a href="#start-exam" class="footer-link">How to Start</a></li>
+                        <li><a href="#live-checklist" class="footer-link">Readiness Checklist</a></li>
+                        <li><a href="#faq" class="footer-link">Frequently Asked Questions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Safe Exam Browser Resources -->
+                <div class="col-lg-3 col-md-6 col-6">
+                    <h6 class="footer-heading">SEB Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://safeexambrowser.org" target="_blank" rel="noopener"
+                                class="footer-link">Official Website</a></li>
+                        <li><a href="https://github.com/SafeExamBrowser" target="_blank" rel="noopener"
+                                class="footer-link">GitHub Repository</a></li>
+                        <li><a href="#hardware-specifications" class="footer-link">Hardware Requirements</a></li>
+                        <li><a href="#close-apps" class="footer-link">Close Background Apps</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Status / Support -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading">System Status</h6>
+                    <div class="mb-3">
+                        <div class="status-badge-footer">
+                            <span class="status-dot"></span>
+                            <span>All Systems Operational</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.8rem; line-height: 1.5; color: #8a8a99;">
+                        Monitored servers are fully active. Exam proctoring services are online.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="mb-0">© 2026 IgnitoLearn. All rights reserved. Designed for secure examinations.</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                        <span style="color:#6e6e77;">Portal Version 4.10.2 (Production)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast-box"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            /* Toast */
+            function showToast(msg, icon) {
+                icon = icon || 'bi-check-circle-fill';
+                var box = document.getElementById('toast-box');
+                var t = document.createElement('div'); t.className = 'toast-dark';
+                t.innerHTML = '<i class="bi ' + icon + '" style="color:var(--p-accent);font-size:1.1rem;"></i> ' + msg;
+                box.appendChild(t);
+                setTimeout(function () { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; setTimeout(function () { t.remove(); }, 300); }, 3000);
+            }
+
+            /* Fade-up scroll observer */
+            var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in-view'); }); }, { threshold: 0.08 });
+            document.querySelectorAll('.fade-up').forEach(function (el) { obs.observe(el); });
+
+            /* Step Tabs */
+            var tabs = document.querySelectorAll('.step-tab');
+            var panels = document.querySelectorAll('.step-video-panel');
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    var target = this.getAttribute('data-target');
+                    tabs.forEach(function (t) { t.classList.remove('active'); });
+                    panels.forEach(function (p) { p.classList.remove('active'); });
+                    this.classList.add('active');
+                    var panel = document.getElementById(target);
+                    if (panel) { panel.classList.add('active'); }
+                });
+            });
+            /* Show first step immediately */
+            setTimeout(function () { document.querySelectorAll('#step1 .fade-up').forEach(function (el) { el.classList.add('in-view'); }); }, 200);
+
+            /* Download buttons: triggers download in new tab and switches to Step 2 permissions tab */
+            document.querySelectorAll('[data-download-app]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var app = this.getAttribute('data-download-app');
+                    var url = this.getAttribute('data-download-url');
+                    showToast('Downloading SEB for ' + app + '…', 'bi-download');
+
+                    if (url) {
+                        window.open(url, '_blank');
+                    }
+
+                    /* Automatically switch to Step 2 permissions tab */
+                    var step2Tab = document.querySelector('.step-tab[data-target="step2"]');
+                    if (step2Tab) {
+                        setTimeout(function () {
+                            step2Tab.click();
+                            showToast('Step 1 complete! Redirected to Step 2 permissions.', 'bi-arrow-right-circle-fill');
+                            document.getElementById('interactive-guide').scrollIntoView({ behavior: 'smooth' });
+                        }, 1000);
+                    }
+                });
+            });
+            ['downloadSebConfigMain', 'dlConfigStep3', 'heroDownloadSEB', 'dlConfigStep4'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('click', function () {
+                        showToast('Downloading GTU-Online-MBA-IB-W25.seb…', 'bi-file-earmark-lock2');
+                        var a = document.createElement('a');
+                        a.href = 'sebfile/GTU-Online-MBA-IB-W25.seb';
+                        a.download = 'GTU-Online-MBA-IB-W25.seb';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+                }
+            });
+
+
+
+            /* Live Checklist with LocalStorage state persistence */
+            var items = ['Safe Exam Browser installed', 'Camera permission enabled', 'Microphone permission enabled', 'All background apps closed', 'VPN disabled', 'Exam config (.seb) downloaded', 'Laptop plugged in &amp; charged', 'Stable internet confirmed', 'Webcam working', 'Quiet room prepared'];
+            var clContainer = document.getElementById('clContainer');
+            var clFill = document.getElementById('clProgressFill');
+            var clPerc = document.getElementById('clPercLabel');
+
+            /* Load saved choices from localStorage */
+            var savedChecks = {};
+            try {
+                savedChecks = JSON.parse(localStorage.getItem('seb_readiness_checklist') || '{}');
+            } catch (e) { console.error('Error loading checklist states:', e); }
+
+            function updateProgress() {
+                var total = items.length;
+                var checked = clContainer.querySelectorAll('input:checked').length;
+                var pct = Math.round((checked / total) * 100);
+                clFill.style.width = pct + '%';
+                clPerc.textContent = pct + '%';
+            }
+
+            items.forEach(function (label, i) {
+                var item = document.createElement('div'); item.className = 'cl-item';
+                var isChecked = savedChecks[i] ? 'checked' : '';
+                item.innerHTML = '<input class="form-check-input" type="checkbox" id="cl' + i + '" ' + isChecked + '><label for="cl' + i + '">' + label + '</label><i class="bi bi-check2-circle" style="color:var(--p-green);opacity:' + (savedChecks[i] ? '1' : '0') + ';transition:opacity .2s;" id="cl-done-' + i + '"></i>';
+
+                if (savedChecks[i]) {
+                    item.classList.add('checked');
+                }
+
+                clContainer.appendChild(item);
+
+                item.querySelector('input').addEventListener('change', function () {
+                    item.classList.toggle('checked', this.checked);
+                    document.getElementById('cl-done-' + i).style.opacity = this.checked ? '1' : '0';
+
+                    /* Save choice state */
+                    savedChecks[i] = this.checked;
+                    try {
+                        localStorage.setItem('seb_readiness_checklist', JSON.stringify(savedChecks));
+                    } catch (e) { console.error('Error saving checklist states:', e); }
+
+                    updateProgress();
+
+                    var total = items.length; var checked = clContainer.querySelectorAll('input:checked').length;
+                    var pct = Math.round((checked / total) * 100);
+                    if (pct === 100) showToast('🎉 You\'re 100% ready for your exam!', 'bi-stars');
+                });
+            });
+
+            /* Initial checklist progress rendering */
+            updateProgress();
+
+            /* FAQ */
+            var faqs = [
+                { q: 'What is Safe Exam Browser (SEB)?', a: 'SEB is a locked-down browser application that prevents access to other programs and websites while you take your exam.' },
+                { q: 'Is SEB free to download?', a: 'Yes, Safe Exam Browser is completely free for students to download and install.' },
+                { q: 'Can I use my mobile phone for the exam?', a: 'No, SEB currently supports Windows and macOS desktop or laptop computers only.' },
+                { q: 'What happens if I close SEB during the exam?', a: 'Your exam session will end immediately and may be flagged for review by your instructor.' },
+                { q: 'Why does SEB need camera access?', a: 'Camera access is used for identity verification and proctoring throughout the exam session.' },
+                { q: 'What if my microphone is not detected?', a: 'Check your system sound settings to confirm the correct input device is selected, then restart SEB.' },
+                { q: 'Can I take the exam using a VPN?', a: 'No, VPN connections must be disabled before starting the exam to avoid connectivity issues.' },
+                { q: 'Do I need to close Zoom or Teams before the exam?', a: 'Yes, all video-conferencing applications must be fully closed — not just minimized.' },
+                { q: 'What if my internet disconnects mid-exam?', a: 'SEB will attempt to reconnect automatically. If the issue persists, contact support immediately.' },
+                { q: 'Can I use dual monitors during the exam?', a: 'No, only a single monitor is allowed. Additional displays must be disconnected before starting.' },
+                { q: 'How do I open the exam configuration file?', a: 'Locate GTU-Online-MBA-IB-W25.seb in your downloads folder and double-click it to launch SEB directly into your exam.' },
+                { q: 'What should I do if SEB fails to install?', a: 'Ensure you downloaded the correct installer for your OS, then re-run it as an administrator.' },
+                { q: 'Will SEB record my screen?', a: 'SEB may capture screen activity for proctoring purposes as configured by your institution.' },
+                { q: 'Can I pause the exam once started?', a: 'Pausing is not supported. Ensure you have enough uninterrupted time before starting your exam.' },
+                { q: 'What if I accidentally deny camera permission?', a: "Re-enable camera access from your operating system's privacy settings, then restart SEB." },
+                { q: 'Is background noise allowed during the exam?', a: 'Please take your exam in a quiet room. Excessive background noise may be flagged during proctoring review.' },
+            ];
+            var faqList = document.getElementById('faqList');
+            faqs.forEach(function (item, i) {
+                var el = document.createElement('div'); el.className = 'faq-item';
+                el.innerHTML = '<button class="faq-btn"><span>' + (i + 1) + '. ' + item.q + '</span><i class="bi bi-plus faq-icon"></i></button><div class="faq-body"><div class="faq-body-inner">' + item.a + '</div></div>';
+                faqList.appendChild(el);
+                var btn = el.querySelector('.faq-btn'); var body = el.querySelector('.faq-body');
+                btn.addEventListener('click', function () {
+                    var isOpen = btn.classList.contains('open');
+                    document.querySelectorAll('.faq-btn.open').forEach(function (b) { b.classList.remove('open'); b.closest('.faq-item').querySelector('.faq-body').classList.remove('open'); });
+                    if (!isOpen) { btn.classList.add('open'); body.classList.add('open'); }
+                });
+            });
+
+            /* Reusable Hardware System Test Routine */
+            function runSystemTest(statusId, feedbackBoxId, camResId, micResId) {
+                var statusBadge = document.getElementById(statusId);
+                var feedbackBox = document.getElementById(feedbackBoxId);
+                var camRes = document.getElementById(camResId);
+                var micRes = document.getElementById(micResId);
+
+                if (!statusBadge || !feedbackBox || !camRes || !micRes) return;
+
+                statusBadge.className = 'badge bg-warning text-dark';
+                statusBadge.textContent = 'Testing...';
+                feedbackBox.style.display = 'block';
+                camRes.innerHTML = '<i class="bi bi-hourglass-split text-warning"></i> Requesting Camera access...';
+                micRes.innerHTML = '<i class="bi bi-hourglass-split text-warning"></i> Requesting Microphone access...';
+
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    statusBadge.className = 'badge bg-danger';
+                    statusBadge.textContent = 'Failed';
+                    camRes.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Browser does not support media device APIs.';
+                    micRes.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Please try a modern browser like Chrome, Edge, or Safari.';
+                    showToast('Device APIs not supported in this browser.', 'bi-exclamation-triangle-fill');
+                    return;
+                }
+
+                var camPassed = false;
+                var micPassed = false;
+
+                /* Check Camera Device Access */
+                var testCamera = navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        camPassed = true;
+                        camRes.innerHTML = '<i class="bi bi-check-circle-fill text-green"></i> Camera: <strong class="text-success">Allowed &amp; Working</strong>';
+
+                        var camCheck = document.getElementById('cl1');
+                        var webcamCheck = document.getElementById('cl8');
+                        if (camCheck && !camCheck.checked) { camCheck.click(); }
+                        if (webcamCheck && !webcamCheck.checked) { webcamCheck.click(); }
+
+                        stream.getTracks().forEach(function (track) { track.stop(); });
+                    })
+                    .catch(function (err) {
+                        camPassed = false;
+                        var camCheck = document.getElementById('cl1');
+                        var webcamCheck = document.getElementById('cl8');
+                        if (camCheck && camCheck.checked) { camCheck.click(); }
+                        if (webcamCheck && webcamCheck.checked) { webcamCheck.click(); }
+
+                        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                            camRes.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Camera: <strong class="text-danger">Permission Blocked</strong> (Reset via browser settings)';
+                        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+                            camRes.innerHTML = '<i class="bi bi-exclamation-triangle-fill text-warning"></i> Camera: <strong class="text-warning">Unplugged / Not Found</strong>';
+                        } else {
+                            camRes.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Camera: <strong>Error: ' + err.message + '</strong>';
+                        }
+                    });
+
+                /* Check Microphone Device Access */
+                var testMic = navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(function (stream) {
+                        micPassed = true;
+                        micRes.innerHTML = '<i class="bi bi-check-circle-fill text-green"></i> Microphone: <strong class="text-success">Allowed &amp; Working</strong>';
+
+                        var micCheck = document.getElementById('cl2');
+                        if (micCheck && !micCheck.checked) { micCheck.click(); }
+
+                        stream.getTracks().forEach(function (track) { track.stop(); });
+                    })
+                    .catch(function (err) {
+                        micPassed = false;
+                        var micCheck = document.getElementById('cl2');
+                        if (micCheck && micCheck.checked) { micCheck.click(); }
+
+                        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                            micRes.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Microphone: <strong class="text-danger">Permission Blocked</strong> (Reset via browser settings)';
+                        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+                            micRes.innerHTML = '<i class="bi bi-exclamation-triangle-fill text-warning"></i> Microphone: <strong class="text-warning">Unplugged / Not Found</strong>';
+                        } else {
+                            micRes.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Microphone: <strong>Error: ' + err.message + '</strong>';
+                        }
+                    });
+
+                /* Wait for both tests to complete, then update overall badge state */
+                Promise.allSettled([testCamera, testMic]).then(function () {
+                    if (camPassed && micPassed) {
+                        statusBadge.className = 'badge bg-success';
+                        statusBadge.textContent = 'Passed';
+                        showToast('🎉 Both Camera and Microphone are ready!', 'bi-stars');
+                    } else {
+                        statusBadge.className = 'badge bg-danger';
+                        statusBadge.textContent = 'Failed';
+                        if (!camPassed && !micPassed) {
+                            showToast('❌ Both Camera and Microphone tests failed.', 'bi-x-circle-fill');
+                        } else if (!camPassed) {
+                            showToast('⚠️ Camera test failed. Please verify your webcam.', 'bi-exclamation-triangle-fill');
+                        } else {
+                            showToast('⚠️ Microphone test failed. Please verify your mic.', 'bi-exclamation-triangle-fill');
+                        }
+                    }
+                });
+            }
+
+            /* Bind Interactive System Test Buttons */
+            var btnTest1 = document.getElementById('btn-run-sys-test');
+            if (btnTest1) {
+                btnTest1.addEventListener('click', function () {
+                    runSystemTest('test-status', 'test-feedback-box', 'test-cam-res', 'test-mic-res');
+                });
+            }
+
+            var btnTest2 = document.getElementById('sec-btn-run-sys-test');
+            if (btnTest2) {
+                btnTest2.addEventListener('click', function () {
+                    runSystemTest('sec-test-status', 'sec-test-feedback-box', 'sec-test-cam-res', 'sec-test-mic-res');
+                });
+            }
+        })();
+
+        /* ── YOUTUBE LITE PLAYER ENGINE ──────────────────────────────────────
+           Why Error 153 occurred:
+           1. enablejsapi=1 without &origin= → YouTube rejects embed on localhost
+           2. referrerpolicy header conflicted with YouTube's origin validation
+           3. Fake/invalid video IDs caused immediate player config failure
+           4. Iframes loaded at page load → YouTube blocked them pre-play
+    
+           This engine:
+           • Lazy-injects the iframe ONLY when the user clicks play
+           • Uses youtube-nocookie.com (Privacy Enhanced Mode — fewer restrictions)
+           • Injects autoplay=1 so video starts immediately on click
+           • Listens to postMessage from YouTube player for error detection
+           • Shows branded error card if embed is blocked
+           • Always provides a visible fallback link to watch on YouTube
+           • Logs all events to console for debugging
+        ─────────────────────────────────────────────────────────────────── */
+        function ytLoad(playerId) {
+            var wrapper = document.getElementById(playerId);
+            if (!wrapper) { console.warn('[YT] Player not found:', playerId); return; }
+
+            var videoId = wrapper.getAttribute('data-vid');
+            var label = wrapper.getAttribute('data-label') || playerId;
+            var thumb = wrapper.querySelector('.yt-thumb');
+            var frameDiv = document.getElementById('yt-frame-' + playerId);
+            var errCard = document.getElementById('yt-err-' + playerId);
+
+            if (!videoId) { console.error('[YT] No data-vid on #' + playerId); return; }
+            if (frameDiv.querySelector('iframe')) {
+                console.log('[YT] Already loaded:', label);
+                return;
+            }
+
+            console.log('[YT] Loading:', label, '| Video ID:', videoId, '| Domain: youtube-nocookie.com');
+
+            /* Build iframe via youtube-nocookie.com (Privacy Enhanced Mode)
+               - Removes enablejsapi (no origin check needed)
+               - autoplay=1 starts video immediately
+               - mute=0 keeps audio on
+               - Controls, no related videos, no branding clutter */
+            var src = 'https://www.youtube-nocookie.com/embed/' + videoId
+                + '?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1';
+
+            var iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.title = label;
+            iframe.frameBorder = '0';
+            iframe.loading = 'lazy';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            iframe.allowFullscreen = true;
+            iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+
+            /* Error handler: if iframe itself fires an error */
+            iframe.addEventListener('error', function () {
+                console.error('[YT] iframe error — possible network/CORS block for:', videoId);
+                ytShowError(playerId);
+            });
+
+            /* Swap thumbnail for live player */
+            thumb.style.display = 'none';
+            frameDiv.style.display = 'block';
+            frameDiv.appendChild(iframe);
+
+            console.log('[YT] iframe injected for:', label, '→', src);
+        }
+
+        /* Called when embedding is confirmed blocked */
+        function ytShowError(playerId) {
+            var frameDiv = document.getElementById('yt-frame-' + playerId);
+            var errCard = document.getElementById('yt-err-' + playerId);
+            if (frameDiv) frameDiv.style.display = 'none';
+            if (errCard) { errCard.style.display = 'flex'; }
+            console.warn('[YT] Showing fallback error card for:', playerId);
+        }
+
+        /* postMessage listener: detects YouTube player errors (including Error 153)
+           YouTube sends structured data when player state changes */
+        window.addEventListener('message', function (evt) {
+            if (!evt.origin || evt.origin.indexOf('youtube') === -1) return;
+            var data = evt.data;
+            if (typeof data === 'string') {
+                try { data = JSON.parse(data); } catch (e) { return; }
+            }
+            if (!data || typeof data !== 'object') return;
+
+            /* YouTube sends {event:'onError', info: <errorCode>}
+               Error codes: 2=invalid ID, 5=HTML5 error, 100=not found,
+               101/150=embed not allowed (owner disabled), 153=config error */
+            if (data.event === 'onError') {
+                console.error('[YT] Player error event received. Code:', data.info,
+                    data.info === 153 ? '→ Video player configuration error (embed blocked by video owner or domain restriction)' :
+                        data.info === 150 ? '→ Embedding disabled by video owner' :
+                            data.info === 101 ? '→ Video not found or private' :
+                                data.info === 100 ? '→ Video removed or private' :
+                                    data.info === 5 ? '→ HTML5 player error' :
+                                        data.info === 2 ? '→ Invalid video ID' : '');
+            }
+
+            /* YouTube IFrame API ready signal */
+            if (data.event === 'initialDelivery') {
+                console.log('[YT] Player initialised successfully.');
+            }
+        });
+
+        /* Keyboard accessibility: Enter/Space on thumbnail triggers play */
+        document.querySelectorAll('.yt-thumb').forEach(function (thumb) {
+            thumb.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    thumb.click();
+                }
+            });
+        });
+
+        /* Interactive Internet Speed Test */
+        (function () {
+            var btn = document.getElementById('btnRunSpeedTest');
+            if (!btn) return;
+            btn.addEventListener('click', function () {
+                var resultText = document.getElementById('speedResult');
+                var labelText = document.getElementById('speedLabel');
+                var unitText = document.getElementById('speedUnit');
+                var gauge = document.getElementById('speedGauge');
+                var spinner = document.getElementById('speedTestingSpinner');
+                var progressWrapper = document.getElementById('speedProgressBarWrapper');
+                var progressBar = document.getElementById('speedProgressBar');
+                var statusWrapper = document.getElementById('speedStatusWrapper');
+                var statusBadge = document.getElementById('speedStatusBadge');
+                var statusText = document.getElementById('speedStatusText');
+
+                // Disable button, reset displays
+                btn.disabled = true;
+                btn.innerHTML = '<i class="spinner-border spinner-border-sm me-1" role="status"></i> Testing speed...';
+                statusWrapper.style.display = 'none';
+                progressWrapper.style.display = 'flex';
+                progressBar.style.width = '0%';
+                spinner.style.display = 'block';
+                labelText.innerText = 'Testing';
+                resultText.innerText = '0.0';
+                gauge.style.borderColor = '#e9ecef';
+
+                var startTime = performance.now();
+
+                // Real download speed test (CORS-enabled Cloudflare cdnjs resource)
+                var testUrl = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', testUrl + '?t=' + Date.now(), true);
+                xhr.responseType = 'blob';
+
+                xhr.onprogress = function (e) {
+                    var total = e.lengthComputable ? e.total : 590000;
+                    var percent = Math.min((e.loaded / total) * 100, 99);
+                    progressBar.style.width = percent + '%';
+
+                    var durationSec = (performance.now() - startTime) / 1000;
+                    if (durationSec > 0.05) {
+                        var sizeInBits = e.loaded * 8;
+                        var currentSpeed = (sizeInBits / durationSec) / (1024 * 1024);
+                        resultText.innerText = currentSpeed.toFixed(1);
+                    }
+                };
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var endTime = performance.now();
+                        var durationSec = (endTime - startTime) / 1000;
+                        if (durationSec <= 0) durationSec = 0.05;
+
+                        var blob = xhr.response;
+                        var sizeInBytes = blob ? blob.size : 590000;
+                        var sizeInBits = sizeInBytes * 8;
+                        var finalSpeed = (sizeInBits / durationSec) / (1024 * 1024);
+
+                        progressBar.style.width = '100%';
+                        completeSpeedTest(finalSpeed);
+                    } else {
+                        showTestError('HTTP Error ' + xhr.status);
+                    }
+                };
+
+                xhr.onerror = function () {
+                    showTestError('Network connection blocked or offline.');
+                };
+
+                xhr.send();
+
+                function completeSpeedTest(finalSpeed) {
+                    resultText.innerText = finalSpeed.toFixed(1);
+                    labelText.innerText = 'Download';
+                    spinner.style.display = 'none';
+                    progressWrapper.style.display = 'none';
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-play-circle me-1"></i> Start Speed Test';
+                    statusWrapper.style.display = 'block';
+
+                    // Display Results based on criteria
+                    if (finalSpeed >= 30) {
+                        gauge.style.borderColor = '#28a745'; // Green border
+                        statusBadge.innerText = 'Excellent (Recommended)';
+                        statusBadge.className = 'badge py-1.5 px-3 mb-2 bg-success text-white';
+                        statusText.innerText = 'Your internet speed is excellent for the examination.';
+                    } else if (finalSpeed >= 20) {
+                        gauge.style.borderColor = '#ffc107'; // Amber border
+                        statusBadge.innerText = 'Passed (Minimum)';
+                        statusBadge.className = 'badge py-1.5 px-3 mb-2 bg-warning text-dark';
+                        statusText.innerText = 'Your internet speed is sufficient for the examination.';
+                    } else {
+                        gauge.style.borderColor = '#dc3545'; // Red border
+                        statusBadge.innerText = 'Failed (Below Minimum)';
+                        statusBadge.className = 'badge py-1.5 px-3 mb-2 bg-danger text-white';
+                        statusText.innerText = 'Your connection is too slow. Minimum 20 Mbps is required. Please switch to a faster network.';
+                    }
+                }
+
+                function showTestError(msg) {
+                    spinner.style.display = 'none';
+                    progressWrapper.style.display = 'none';
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-play-circle me-1"></i> Start Speed Test';
+                    statusWrapper.style.display = 'block';
+
+                    gauge.style.borderColor = '#dc3545'; // Red border
+                    resultText.innerText = 'ERR';
+                    labelText.innerText = 'Error';
+
+                    statusBadge.innerText = 'Test Failed';
+                    statusBadge.className = 'badge py-1.5 px-3 mb-2 bg-danger text-white';
+                    statusText.innerText = msg + ' Could not complete the download speed test.';
+                }
+            });
+        })();
+
+        console.info('[YT] Lite embed engine ready. Players:', ['yt-step1', 'yt-step4'].join(', '));
+    </script>
+</body>
+
+</html>
